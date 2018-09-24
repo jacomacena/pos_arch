@@ -73,7 +73,7 @@ set_lang(){
 	ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
 	echo "Localtime configured"
 	echo ""
-	echo "LANG=pt_BR.UTF-8" > /etc/locale.gen
+	echo "pt_BR.UTF-8 UTF-8" > /etc/locale.gen
 	echo "Locale configured"
 	echo ""
 	locale-gen
