@@ -47,7 +47,7 @@ usage: ${0##*/} [flags] [options]
 
     --pass-root, -pr                     Set password ROOT
     --lang, -l				 Set language (pt_BR)
-    --nmachine, -nm			 Set name machine
+    --nmachine, -nm <name_machine>	 Set name machine
     --install, -i                        Install all packages
     --boot, -bg				 Set boot - grub (EFI - x86_64)
     --user, -su  <user> <password>       Create name to user with privilegies root/sudo
@@ -78,7 +78,8 @@ set_lang(){
 	echo ""
 	echo "KEYMAP=br-abnt2" > /etc/vconsole.conf
 	echo "Keymap configured"
-	locale-gen	
+	locale-gen
+	echo "Language pt_BR installed"
 }
 
 name_machine(){
@@ -97,7 +98,7 @@ set_install(){
 
 	pacman -S sudo bash-completion grub os-prober efibootmgr networkmanager net-tools intel-ucode artwiz-fonts dina-font terminus-font ttf-bitstream-vera ttf-dejavu ttf-freefont ttf-inconsolata ttf-liberation ttf-linux-libertine xorg-fonts-type1 firefox transmission-gtk xf86-input-synaptics flashplugin gimp libreoffice libreoffice-pt-BR xorg xorg-xinit alsa-lib alsa-utils alsa-firmware alsa-plugins pulseaudio-alsa pulseaudio vlc tar gzip bzip2 unzip unrar p7zip ntfs-3g wget curl epdfview intel-dri xf86-video-intel bumblebee nvidia bbswitch lib32-nvidia-utils lib32-intel-dri opencl-nvidia lib32-virtualgl linux-headers openssh cinnamon nemo-fileroller inkscape xdg-user-dirs bluez blueman bluez-utils networkmanager-pptp networkmanager-openvpn privoxy tor lynx telegram-desktop youtube-dl filezilla eog cmus libmp4v2 opusfile wavpack xterm gnome-terminal vim git gparted bleachbit jre10-openjdk gnome-system-monitor gedit wireshark-qt rkhunter gnome-calculator electrum virtualbox virtualbox-guest-iso aircrack-ng dnsutils cdrtools cifs-utils whois gdm android-tools mtr
 
-	pacman -Rscn xorg-fonts-75dpi xorg-fonts-100dpi
+	pacman -Rscn xorg-fonts-75dpi xorg-fonts-100dpi --no-confirm
 
 }
 
@@ -120,11 +121,7 @@ set_user(){
 	useradd -m -g users -G wheel,sys,lp,network,video,optical,storage,scanner,storage,power,bumblebee -s /bin/bash "$muser"    
 	echo "Set password for your user:"
 	passwd "$muser"
-	pacman -S sudo --noconfirm
 	sed -i "s/^root ALL=(ALL) ALL$/root ALL=(ALL) ALL\n${muser} ALL=(ALL) ALL\n/" /etc/sudoers
-
-
-	passwd "$muser"
 
 	echo "Success: user create and included on group sudo"    
 }
