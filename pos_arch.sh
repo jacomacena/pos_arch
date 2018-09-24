@@ -76,10 +76,9 @@ set_lang(){
 	echo "pt_BR.UTF-8 UTF-8" > /etc/locale.gen
 	echo "Locale configured"
 	echo ""
-	locale-gen
-	echo ""
 	echo "KEYMAP=br-abnt2" > /etc/vconsole.conf
 	echo "Keymap configured"
+	locale-gen	
 }
 
 name_machine(){
@@ -135,7 +134,7 @@ case "$1" in
 
     "--pass-root"|"-pr") pass_root;;
     "--lang"|"-l") set_lang;;
-    "--nmachine"|"-nm") name_machine;;
+    "--nmachine"|"-nm") name_machine "$@";;
     "--install"|"-i") set_install;;
     "--boot"|"-bg") boot_grub;;
     "--user"|"-su") set_user "$@";;
