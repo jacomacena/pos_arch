@@ -51,7 +51,6 @@ usage: ${0##*/} [flags] [options]
     --install, -i                        Install all packages
     --boot, -bg				 Set boot - grub (EFI - x86_64)
     --user, -su  <user> <password>       Create name to user with privilegies root/sudo
-    --version, -v                        Show version
     --help, -h                           Show this is message
 
 EOF
