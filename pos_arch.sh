@@ -34,9 +34,8 @@
 #[multilib]
 #Include = /etc/pacman.d/mirrorlist
 
-#[archlinuxfr]
-#SigLevel = Never
-#Server = http://repo.archlinux.fr/x86_64
+#[arcanisrepo]
+#Server = https://repo.arcanis.me/repo/$arch
 
 usage() {
   cat <<EOF
@@ -95,7 +94,7 @@ set_install(){
 
 	pacman -Syyyyyuuuuu
 
-	pacman -S sudo bash-completion grub os-prober efibootmgr networkmanager net-tools intel-ucode artwiz-fonts dina-font terminus-font ttf-bitstream-vera ttf-dejavu ttf-freefont ttf-inconsolata ttf-liberation ttf-linux-libertine xorg-fonts-type1 firefox transmission-gtk xf86-input-synaptics flashplugin gimp libreoffice libreoffice-pt-BR xorg xorg-xinit alsa-lib alsa-utils alsa-firmware alsa-plugins pulseaudio-alsa pulseaudio vlc tar gzip bzip2 unzip unrar p7zip ntfs-3g wget curl epdfview intel-dri xf86-video-intel bumblebee nvidia bbswitch lib32-nvidia-utils lib32-intel-dri opencl-nvidia lib32-virtualgl linux-headers openssh cinnamon nemo-fileroller inkscape xdg-user-dirs bluez blueman bluez-utils networkmanager-pptp networkmanager-openvpn privoxy tor lynx telegram-desktop youtube-dl filezilla eog cmus libmp4v2 opusfile wavpack xterm gnome-terminal vim git gparted bleachbit jre10-openjdk gnome-system-monitor gedit wireshark-qt rkhunter gnome-calculator electrum virtualbox virtualbox-guest-iso aircrack-ng dnsutils cdrtools cifs-utils whois gdm android-tools mtr ttf-hack adobe-source-code-pro-fonts
+	pacman -S sudo bash-completion grub os-prober efibootmgr networkmanager net-tools intel-ucode artwiz-fonts dina-font terminus-font ttf-bitstream-vera ttf-dejavu ttf-freefont ttf-inconsolata ttf-liberation ttf-linux-libertine xorg-fonts-type1 firefox transmission-gtk xf86-input-synaptics flashplugin gimp libreoffice libreoffice-pt-BR xorg xorg-xinit alsa-lib alsa-utils alsa-firmware alsa-plugins pulseaudio-alsa pulseaudio vlc tar gzip bzip2 unzip unrar p7zip ntfs-3g wget curl epdfview intel-dri xf86-video-intel bumblebee nvidia bbswitch lib32-nvidia-utils lib32-intel-dri opencl-nvidia lib32-virtualgl linux-headers openssh cinnamon nemo-fileroller inkscape xdg-user-dirs bluez blueman bluez-utils networkmanager-pptp networkmanager-openvpn privoxy tor lynx telegram-desktop youtube-dl filezilla eog cmus libmp4v2 opusfile wavpack xterm gnome-terminal vim git gparted bleachbit jre10-openjdk gnome-system-monitor gedit wireshark-qt rkhunter gnome-calculator electrum virtualbox virtualbox-guest-iso aircrack-ng dnsutils cdrtools cifs-utils whois gdm android-tools mtr ttf-hack adobe-source-code-pro-fonts atom
 
 	pacman -Rscn xorg-fonts-75dpi xorg-fonts-100dpi --no-confirm
 
@@ -155,4 +154,4 @@ esac
 
 ##### AUR
 
-#i2p google-chrome beebeep teamviewer gtkpod etcher woeusb brackets masterpdfeditor crunch wd719x-firmware aic94xx-firmware paper-icon-theme
+#i2p google-chrome teamviewer gtkpod etcher woeusb masterpdfeditor crunch wd719x-firmware aic94xx-firmware paper-icon-theme
