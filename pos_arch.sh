@@ -154,4 +154,4 @@ esac
 
 ##### AUR
 
-#i2p google-chrome teamviewer gtkpod etcher woeusb masterpdfeditor crunch wd719x-firmware aic94xx-firmware paper-icon-theme
+#i2p google-chrome teamviewer gtkpod etcher woeusb masterpdfeditor crunch wd719x-firmware aic94xx-firmware paper-icon-theme optimus-manager
