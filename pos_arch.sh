@@ -33,14 +33,9 @@ usage() {
 usage: ${0##*/} [flags] [options]
 
   Options:
-
-    --pass-root, -pr                     Set password ROOT
-    --lang, -l				 Set language (pt_BR)
-    --nmachine, -nm <name_machine>	 Set name machine
+  
     --install-cinnamon, -ic              Install all packages (Cinnamon)
     --install-i3, -ii3			 Install all packages (I3)
-    --boot, -bg				 Set boot - grub (EFI - x86_64)
-    --user, -su  <user> <password>       Create name to user with privilegies root/sudo
     --help, -h                           Show this is message
 
 EOF
@@ -58,77 +53,78 @@ set_pacman(){
 	
 	echo "[arcanisrepo]" >> /etc/pacman.conf
 	echo "Server = https://repo.arcanis.me/repo/$arch" >> /etc/pacman.conf
+	
+	echo "Pacman configured..."
+	sleep 2
 
 }
 
 pass_root(){
+	clear
+	echo "pass root:"
 	passwd root
+	sleep 2
 }
 
 set_lang(){
+	clear
 	loadkeys br-abnt2
-	echo "Keyboard configured"
+	echo "Keyboard configured..."
 	echo ""
 	ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
-	echo "Localtime configured"
+	echo "Localtime configured..."
 	echo ""
 	echo "pt_BR.UTF-8 UTF-8" > /etc/locale.gen
-	echo "Locale configured"
+	echo "Locale configured..."
 	echo ""
 	echo "KEYMAP=br-abnt2" > /etc/vconsole.conf
-	echo "Keymap configured"
+	echo "Keymap configured..."
 	locale-gen
-	echo "Language pt_BR installed"
+	echo "Language pt_BR installed..."
+	sleep 2
 }
 
 name_machine(){
-
-	[[ -z "$2" ]] && echo "Set name machine" && exit 1
+	clear
 	
-	nm=$(echo "$2")
+	echo "set name machine:"
+	
+	read nm
+	
+	[[ -z "$nm" ]] && echo "Set name machine" && exit 1
+	
+	nm1=$(echo "$nm")
 
-	echo "$nm" > /etc/hostname
-	echo "$nm configured successfully"
-}
-
-set_install_cin(){
-
-	set_pacman
-
-	pacman -Syyyyyuuuuu
-
-	pacman -S sudo bash-completion grub os-prober efibootmgr networkmanager net-tools intel-ucode artwiz-fonts dina-font terminus-font ttf-bitstream-vera ttf-dejavu ttf-freefont ttf-inconsolata ttf-liberation ttf-linux-libertine xorg-fonts-type1 firefox transmission-gtk xf86-input-synaptics flashplugin gimp libreoffice libreoffice-pt-BR xorg xorg-xinit alsa-lib alsa-utils alsa-firmware alsa-plugins pulseaudio-alsa pulseaudio vlc tar gzip bzip2 unzip unrar p7zip ntfs-3g wget curl epdfview intel-dri xf86-video-intel bumblebee nvidia bbswitch lib32-nvidia-utils lib32-intel-dri opencl-nvidia lib32-virtualgl linux-headers openssh cinnamon nemo-fileroller inkscape xdg-user-dirs bluez blueman bluez-utils networkmanager-pptp networkmanager-openvpn privoxy tor lynx telegram-desktop youtube-dl filezilla eog cmus libmp4v2 opusfile wavpack xterm gnome-terminal vim git gparted bleachbit jre10-openjdk gnome-system-monitor gedit wireshark-qt rkhunter gnome-calculator electrum virtualbox virtualbox-guest-iso aircrack-ng dnsutils cdrtools cifs-utils whois gdm android-tools mtr ttf-hack adobe-source-code-pro-fonts atom yaourt
-
-	pacman -Rscn xorg-fonts-75dpi xorg-fonts-100dpi
-
-}
-
-set_install_i3(){
-
-	set_pacman
-
-	pacman -Syyyyyuuuuu
-
-	pacman -S sudo bash-completion grub os-prober efibootmgr networkmanager net-tools intel-ucode artwiz-fonts dina-font terminus-font ttf-bitstream-vera ttf-dejavu ttf-freefont ttf-inconsolata ttf-liberation ttf-linux-libertine xorg-fonts-type1 firefox transmission-gtk gimp libreoffice libreoffice-pt-BR xorg xorg-xinit alsa-lib alsa-utils alsa-firmware alsa-plugins pulseaudio-alsa pulseaudio vlc tar gzip bzip2 unzip unrar p7zip ntfs-3g wget curl epdfview intel-dri xf86-video-intel bumblebee nvidia bbswitch opencl-nvidia linux-headers openssh i3 thunar file-roller inkscape bluez blueman bluez-utils lynx telegram-desktop eog cmus libmp4v2 opusfile wavpack xterm terminator vim git gparted bleachbit jre10-openjdk gedit wireshark-qt rkhunter virtualbox virtualbox-guest-iso aircrack-ng dnsutils cdrtools cifs-utils whois gdm android-tools mtr adobe-source-code-pro-fonts atom yaourt dmenu 
-
-	pacman -Rscn xorg-fonts-75dpi xorg-fonts-100dpi
-
+	echo "$nm1" > /etc/hostname
+	echo "$nm1 configured successfully"
+	sleep 2
 }
 
 boot_grub(){
+
+	clear
+	
+	echo "GRUB:"
 
 	mkinitcpio -p linux
 
 	grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=arch_grub --recheck /dev/sda
 
 	grub-mkconfig -o /boot/grub/grub.cfg
+	
+	echo "grub configured successfully"
+	
+	sleep 2
 
 }
 
 set_user(){
 
-    [[ -z "$2" ]] && echo "Set name user" && exit 1
-    muser=$(echo "$2" | tr -d ' _-' | tr 'A-Z' 'a-z')
+	clear
+
+    	[[ -z "$2" ]] && echo "Set name user" && exit 1
+	read u
+    	muser=$(echo "$u" | tr -d ' _-' | tr 'A-Z' 'a-z')
     
     echo "Your user: $muser:"
 	useradd -m -g users -G wheel,sys,lp,network,video,optical,storage,scanner,storage,power,bumblebee -s /bin/bash "$muser"    
@@ -136,38 +132,76 @@ set_user(){
 	passwd "$muser"
 	sed -i "s/^root ALL=(ALL) ALL$/root ALL=(ALL) ALL\n${muser} ALL=(ALL) ALL\n/" /etc/sudoers
 
-	echo "Success: user create and included on group sudo"    
+	echo "Success: user create and included on group sudo"   
+	sleep 2
 }
 
+set_services(){
+	clear
+	echo "set services..."
+	systemctl enable NetworkManager
+	systemctl enable bumblebeed
+	systemctl enable gdm
+	echo "configured services"
+}
+
+set_install_cin(){
+
+	set_pacman
+	
+	pass_root
+	
+	set_lang
+	
+	name_machine
+	
+	boot_grub
+	
+	set_user
+
+	pacman -Syyyyyuuuuu
+
+	pacman -S sudo bash-completion grub os-prober efibootmgr networkmanager net-tools intel-ucode artwiz-fonts dina-font terminus-font ttf-bitstream-vera ttf-dejavu ttf-freefont ttf-inconsolata ttf-liberation ttf-linux-libertine xorg-fonts-type1 firefox transmission-gtk xf86-input-synaptics flashplugin gimp libreoffice libreoffice-pt-BR xorg xorg-xinit alsa-lib alsa-utils alsa-firmware alsa-plugins pulseaudio-alsa pulseaudio vlc tar gzip bzip2 unzip unrar p7zip ntfs-3g wget curl epdfview intel-dri xf86-video-intel bumblebee nvidia bbswitch lib32-nvidia-utils lib32-intel-dri opencl-nvidia lib32-virtualgl linux-headers openssh cinnamon nemo-fileroller inkscape xdg-user-dirs bluez blueman bluez-utils networkmanager-pptp networkmanager-openvpn privoxy tor lynx telegram-desktop youtube-dl filezilla eog cmus libmp4v2 opusfile wavpack xterm gnome-terminal vim git gparted scrot bleachbit jre10-openjdk gnome-system-monitor gedit wireshark-qt rkhunter gnome-calculator electrum virtualbox virtualbox-guest-iso aircrack-ng dnsutils cdrtools cifs-utils whois gdm android-tools mtr ttf-hack adobe-source-code-pro-fonts atom yaourt
+	
+	yaourt -S polybar nomachine nerd-fonts-complete etcher woeusb crunch wd719x-firmware aic94xx-firmware paper-icon-theme optimus-manager google-chrome
+
+	pacman -Rscn xorg-fonts-75dpi xorg-fonts-100dpi
+	
+	set_services
+
+}
+
+set_install_i3(){
+
+	set_pacman
+	
+	pass_root
+	
+	set_lang
+	
+	name_machine
+	
+	boot_grub
+	
+	set_user
+
+	pacman -Syyyyyuuuuu
+
+	pacman -S sudo bash-completion grub os-prober efibootmgr networkmanager net-tools intel-ucode artwiz-fonts dina-font terminus-font ttf-bitstream-vera ttf-dejavu ttf-freefont ttf-inconsolata ttf-liberation ttf-linux-libertine xorg-fonts-type1 firefox transmission-gtk gimp libreoffice libreoffice-pt-BR xorg xorg-xinit alsa-lib alsa-utils alsa-firmware alsa-plugins pulseaudio-alsa pulseaudio vlc tar gzip bzip2 unzip unrar p7zip ntfs-3g wget curl epdfview intel-dri xf86-video-intel bumblebee nvidia bbswitch opencl-nvidia linux-headers openssh i3 thunar file-roller inkscape bluez blueman bluez-utils lynx telegram-desktop eog cmus libmp4v2 opusfile wavpack xterm terminator vim git gparted bleachbit jre10-openjdk gedit wireshark-qt rkhunter virtualbox virtualbox-guest-iso aircrack-ng dnsutils cdrtools cifs-utils whois gdm android-tools mtr adobe-source-code-pro-fonts atom yaourt dmenu gvfs numlockx scrot rofi exo playerctl pamixer light feh
+	
+	yaourt -S polybar nomachine nerd-fonts-complete etcher woeusb crunch wd719x-firmware aic94xx-firmware paper-icon-theme optimus-manager google-chrome
+
+	pacman -Rscn xorg-fonts-75dpi xorg-fonts-100dpi
+	
+	set_services
+
+}
 
 case "$1" in
 
-    "--pass-root"|"-pr") pass_root;;
-    "--lang"|"-l") set_lang;;
-    "--nmachine"|"-nm") name_machine "$@";;
     "--install-cinnamon"|"-ic") set_install_cin;;
     "--install-i3"|"-ii3") set_install_i3;;
-    "--boot"|"-bg") boot_grub;;
-    "--user"|"-su") set_user "$@";;
     "--help"|"-h") usage ;;
     *) echo "Invalid option." && usage ;;
 
 esac
-
-
-############### Pós instalação ###############
-
-#systemctl enable NetworkManager
-#systemctl enable bumblebeed
-#systemctl enable lightdm
-
-###################
-#cp /etc/X11/xinit/xinitrc /home/$USER/.xinitrc
-
-#echo "exec cinnamon-session" >> /home/$USER/.xinitrc
-
-#xdg-user-dirs-update
-
-##### AUR
-
-#i2p google-chrome teamviewer gtkpod etcher woeusb masterpdfeditor crunch wd719x-firmware aic94xx-firmware paper-icon-theme optimus-manager
