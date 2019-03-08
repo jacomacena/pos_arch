@@ -24,18 +24,8 @@
 # SOFTWARE.
 #
 #
-# Script made for automated post-installation of Arch Linux with Cinnamon +
+# Script made for automated post-installation of Arch Linux with Cinnamon/i3 +
 # Grub (EFI x86_64) + Nvidia
-
-
-##### Multilib e Yaourt #####
-# uncomment and insert into /etc/pacman.conf
-
-#[multilib]
-#Include = /etc/pacman.d/mirrorlist
-
-#[arcanisrepo]
-#Server = https://repo.arcanis.me/repo/$arch
 
 usage() {
   cat <<EOF
@@ -47,7 +37,8 @@ usage: ${0##*/} [flags] [options]
     --pass-root, -pr                     Set password ROOT
     --lang, -l				 Set language (pt_BR)
     --nmachine, -nm <name_machine>	 Set name machine
-    --install, -i                        Install all packages
+    --install-cinnamon, -ic              Install all packages (Cinnamon)
+    --install-i3, -ii3			 Install all packages (I3)
     --boot, -bg				 Set boot - grub (EFI - x86_64)
     --user, -su  <user> <password>       Create name to user with privilegies root/sudo
     --help, -h                           Show this is message
@@ -59,6 +50,16 @@ if [[ -z $1 || $1 = @(-h|--help) ]]; then
   usage
   exit $(( $# ? 0 : 1 ))
 fi
+
+set_pacman(){
+
+	echo "[multilib]" >> /etc/pacman.conf
+	echo "Include = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf
+	
+	echo "[arcanisrepo]" >> /etc/pacman.conf
+	echo "Server = https://repo.arcanis.me/repo/$arch" >> /etc/pacman.conf
+
+}
 
 pass_root(){
 	passwd root
@@ -90,13 +91,27 @@ name_machine(){
 	echo "$nm configured successfully"
 }
 
-set_install(){
+set_install_cin(){
+
+	set_pacman
 
 	pacman -Syyyyyuuuuu
 
-	pacman -S sudo bash-completion grub os-prober efibootmgr networkmanager net-tools intel-ucode artwiz-fonts dina-font terminus-font ttf-bitstream-vera ttf-dejavu ttf-freefont ttf-inconsolata ttf-liberation ttf-linux-libertine xorg-fonts-type1 firefox transmission-gtk xf86-input-synaptics flashplugin gimp libreoffice libreoffice-pt-BR xorg xorg-xinit alsa-lib alsa-utils alsa-firmware alsa-plugins pulseaudio-alsa pulseaudio vlc tar gzip bzip2 unzip unrar p7zip ntfs-3g wget curl epdfview intel-dri xf86-video-intel bumblebee nvidia bbswitch lib32-nvidia-utils lib32-intel-dri opencl-nvidia lib32-virtualgl linux-headers openssh cinnamon nemo-fileroller inkscape xdg-user-dirs bluez blueman bluez-utils networkmanager-pptp networkmanager-openvpn privoxy tor lynx telegram-desktop youtube-dl filezilla eog cmus libmp4v2 opusfile wavpack xterm gnome-terminal vim git gparted bleachbit jre10-openjdk gnome-system-monitor gedit wireshark-qt rkhunter gnome-calculator electrum virtualbox virtualbox-guest-iso aircrack-ng dnsutils cdrtools cifs-utils whois gdm android-tools mtr ttf-hack adobe-source-code-pro-fonts atom
+	pacman -S sudo bash-completion grub os-prober efibootmgr networkmanager net-tools intel-ucode artwiz-fonts dina-font terminus-font ttf-bitstream-vera ttf-dejavu ttf-freefont ttf-inconsolata ttf-liberation ttf-linux-libertine xorg-fonts-type1 firefox transmission-gtk xf86-input-synaptics flashplugin gimp libreoffice libreoffice-pt-BR xorg xorg-xinit alsa-lib alsa-utils alsa-firmware alsa-plugins pulseaudio-alsa pulseaudio vlc tar gzip bzip2 unzip unrar p7zip ntfs-3g wget curl epdfview intel-dri xf86-video-intel bumblebee nvidia bbswitch lib32-nvidia-utils lib32-intel-dri opencl-nvidia lib32-virtualgl linux-headers openssh cinnamon nemo-fileroller inkscape xdg-user-dirs bluez blueman bluez-utils networkmanager-pptp networkmanager-openvpn privoxy tor lynx telegram-desktop youtube-dl filezilla eog cmus libmp4v2 opusfile wavpack xterm gnome-terminal vim git gparted bleachbit jre10-openjdk gnome-system-monitor gedit wireshark-qt rkhunter gnome-calculator electrum virtualbox virtualbox-guest-iso aircrack-ng dnsutils cdrtools cifs-utils whois gdm android-tools mtr ttf-hack adobe-source-code-pro-fonts atom yaourt
 
-	pacman -Rscn xorg-fonts-75dpi xorg-fonts-100dpi --no-confirm
+	pacman -Rscn xorg-fonts-75dpi xorg-fonts-100dpi
+
+}
+
+set_install_i3(){
+
+	set_pacman
+
+	pacman -Syyyyyuuuuu
+
+	pacman -S sudo bash-completion grub os-prober efibootmgr networkmanager net-tools intel-ucode artwiz-fonts dina-font terminus-font ttf-bitstream-vera ttf-dejavu ttf-freefont ttf-inconsolata ttf-liberation ttf-linux-libertine xorg-fonts-type1 firefox transmission-gtk gimp libreoffice libreoffice-pt-BR xorg xorg-xinit alsa-lib alsa-utils alsa-firmware alsa-plugins pulseaudio-alsa pulseaudio vlc tar gzip bzip2 unzip unrar p7zip ntfs-3g wget curl epdfview intel-dri xf86-video-intel bumblebee nvidia bbswitch opencl-nvidia linux-headers openssh i3 thunar file-roller inkscape bluez blueman bluez-utils lynx telegram-desktop eog cmus libmp4v2 opusfile wavpack xterm terminator vim git gparted bleachbit jre10-openjdk gedit wireshark-qt rkhunter virtualbox virtualbox-guest-iso aircrack-ng dnsutils cdrtools cifs-utils whois gdm android-tools mtr adobe-source-code-pro-fonts atom yaourt dmenu 
+
+	pacman -Rscn xorg-fonts-75dpi xorg-fonts-100dpi
 
 }
 
@@ -130,7 +145,8 @@ case "$1" in
     "--pass-root"|"-pr") pass_root;;
     "--lang"|"-l") set_lang;;
     "--nmachine"|"-nm") name_machine "$@";;
-    "--install"|"-i") set_install;;
+    "--install-cinnamon"|"-ic") set_install_cin;;
+    "--install-i3"|"-ii3") set_install_i3;;
     "--boot"|"-bg") boot_grub;;
     "--user"|"-su") set_user "$@";;
     "--help"|"-h") usage ;;
