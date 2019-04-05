@@ -79,11 +79,11 @@ set_lang(){
 	echo ""
 	echo "KEYMAP=br-abnt2" > /etc/vconsole.conf
 	echo "Keymap configured..."
-	cp 00-keyboard.conf /etc/X11/xorg.conf.d/
-	cp 20-intel.conf /etc/X11/xorg.conf.d/
-	cp 40-touchpad.conf /etc/X11/xorg.conf.d/
-	cp keyboard /etc/default/
-	cp locale /etc/default/
+	cp xorg/00-keyboard.conf /etc/X11/xorg.conf.d/
+	cp xorg/20-intel.conf /etc/X11/xorg.conf.d/
+	cp xorg/40-touchpad.conf /etc/X11/xorg.conf.d/
+	cp lang/keyboard /etc/default/
+	cp lang/locale /etc/default/
 	locale-gen
 	echo "Language pt_BR installed..."
 	sleep 2
