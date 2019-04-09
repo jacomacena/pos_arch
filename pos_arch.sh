@@ -203,7 +203,7 @@ set_install_i3(){
 	opusfile wavpack xterm terminator vim git gparted bleachbit jre10-openjdk gedit wireshark-qt \
 	rkhunter virtualbox virtualbox-guest-iso aircrack-ng dnsutils cdrtools cifs-utils whois gdm \
 	android-tools mtr adobe-source-code-pro-fonts atom yaourt dmenu gvfs numlockx scrot rofi exo \
-	playerctl pamixer light feh pidgin lxappearance gsimplecal ttf-font-awesome gucharmap ntp
+	playerctl pamixer light feh pidgin lxappearance gsimplecal ttf-font-awesome gucharmap ntp gwenview
 	
 	yaourt -S polybar nomachine networkmanager-dmenu-git nerd-fonts-complete etcher woeusb crunch \
 	wd719x-firmware aic94xx-firmware paper-icon-theme optimus-manager google-chrome i3lock-fancy-git
