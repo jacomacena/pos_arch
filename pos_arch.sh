@@ -127,7 +127,7 @@ set_user(){
 
 	clear
 
-    	[[ -z "$2" ]] && echo "Set name user" && exit 1
+    	[[ -z "$2" ]] && echo "Set name user"
 	read u
     	muser=$(echo "$u" | tr -d ' _-' | tr 'A-Z' 'a-z')
     
@@ -156,9 +156,20 @@ set_install_cin(){
 	
 	pacman -Syyyyyuuuuu
 	
-	pacman -S sudo bash-completion grub os-prober efibootmgr ttf-roboto networkmanager net-tools intel-ucode artwiz-fonts dina-font terminus-font ttf-bitstream-vera ttf-dejavu ttf-freefont ttf-inconsolata ttf-liberation ttf-linux-libertine xorg-fonts-type1 firefox transmission-gtk xf86-input-synaptics flashplugin gimp libreoffice libreoffice-pt-BR xorg xorg-xinit alsa-lib alsa-utils alsa-firmware alsa-plugins pulseaudio-alsa pulseaudio vlc tar gzip bzip2 unzip unrar p7zip ntfs-3g wget curl epdfview intel-dri xf86-video-intel bumblebee nvidia bbswitch lib32-nvidia-utils lib32-intel-dri opencl-nvidia lib32-virtualgl linux-headers openssh cinnamon nemo-fileroller inkscape xdg-user-dirs bluez blueman bluez-utils networkmanager-pptp networkmanager-openvpn privoxy tor lynx telegram-desktop youtube-dl filezilla eog cmus libmp4v2 opusfile wavpack xterm gnome-terminal vim git gparted scrot bleachbit jre10-openjdk gnome-system-monitor gedit wireshark-qt rkhunter gnome-calculator electrum virtualbox virtualbox-guest-iso aircrack-ng dnsutils cdrtools cifs-utils whois gdm android-tools mtr ttf-hack adobe-source-code-pro-fonts atom yaourt pidgin
+	pacman -S sudo bash-completion grub os-prober efibootmgr ttf-roboto networkmanager net-tools intel-ucode \
+	artwiz-fonts dina-font terminus-font ttf-bitstream-vera ttf-dejavu ttf-freefont ttf-inconsolata ttf-liberation \
+	ttf-linux-libertine xorg-fonts-type1 firefox transmission-gtk xf86-input-synaptics flashplugin gimp libreoffice \
+	libreoffice-pt-BR xorg xorg-xinit alsa-lib alsa-utils alsa-firmware alsa-plugins pulseaudio-alsa pulseaudio \
+	vlc tar gzip bzip2 unzip unrar p7zip ntfs-3g wget curl epdfview intel-dri xf86-video-intel bumblebee nvidia \
+	bbswitch lib32-nvidia-utils lib32-intel-dri opencl-nvidia lib32-virtualgl linux-headers openssh cinnamon \
+	nemo-fileroller inkscape xdg-user-dirs bluez blueman bluez-utils networkmanager-pptp networkmanager-openvpn \
+	privoxy tor lynx telegram-desktop youtube-dl filezilla eog cmus libmp4v2 opusfile wavpack xterm \
+	gnome-terminal vim git gparted scrot bleachbit jre10-openjdk gnome-system-monitor gedit wireshark-qt \
+	rkhunter gnome-calculator electrum virtualbox virtualbox-guest-iso aircrack-ng dnsutils cdrtools cifs-utils \
+	whois gdm android-tools mtr ttf-hack adobe-source-code-pro-fonts atom yaourt pidgin
 	
-	yaourt -S polybar nomachine nerd-fonts-complete etcher woeusb crunch wd719x-firmware aic94xx-firmware paper-icon-theme optimus-manager google-chrome
+	yaourt -S polybar nomachine nerd-fonts-complete etcher woeusb crunch wd719x-firmware aic94xx-firmware \
+	paper-icon-theme optimus-manager google-chrome
 	
 	pacman -Rscn xorg-fonts-75dpi xorg-fonts-100dpi
 	
@@ -182,9 +193,20 @@ set_install_i3(){
 	
 	pacman -Syyyyyuuuuu
 
-	pacman -S sudo bash-completion grub os-prober efibootmgr compton ttf-roboto thunar-volman networkmanager net-tools intel-ucode artwiz-fonts dina-font terminus-font ttf-bitstream-vera ttf-dejavu ttf-freefont ttf-inconsolata ttf-liberation ttf-linux-libertine xorg-fonts-type1 firefox transmission-gtk gimp libreoffice libreoffice-pt-BR xorg xorg-xinit alsa-lib alsa-utils alsa-firmware alsa-plugins pulseaudio-alsa pulseaudio vlc tar gzip bzip2 unzip unrar p7zip ntfs-3g wget curl epdfview intel-dri xf86-video-intel bumblebee nvidia bbswitch opencl-nvidia linux-headers openssh i3 thunar file-roller inkscape bluez blueman bluez-utils lynx telegram-desktop eog cmus libmp4v2 opusfile wavpack xterm terminator vim git gparted bleachbit jre10-openjdk gedit wireshark-qt rkhunter virtualbox virtualbox-guest-iso aircrack-ng dnsutils cdrtools cifs-utils whois gdm android-tools mtr adobe-source-code-pro-fonts atom yaourt dmenu gvfs numlockx scrot rofi exo playerctl pamixer light feh pidgin lxappearance gsimplecal ttf-font-awesome gucharmap ntp
+	pacman -S sudo bash-completion grub os-prober efibootmgr compton ttf-roboto thunar-volman networkmanager \
+	net-tools intel-ucode artwiz-fonts dina-font terminus-font ttf-bitstream-vera ttf-dejavu ttf-freefont \
+	ttf-inconsolata ttf-liberation ttf-linux-libertine xorg-fonts-type1 firefox transmission-gtk gimp \
+	libreoffice libreoffice-pt-BR xorg xorg-xinit alsa-lib alsa-utils alsa-firmware alsa-plugins \
+	pulseaudio-alsa pulseaudio vlc tar gzip bzip2 unzip unrar p7zip ntfs-3g wget curl epdfview \
+	intel-dri xf86-video-intel bumblebee nvidia bbswitch opencl-nvidia linux-headers openssh i3 \
+	thunar file-roller inkscape bluez blueman bluez-utils lynx telegram-desktop eog cmus libmp4v2 \
+	opusfile wavpack xterm terminator vim git gparted bleachbit jre10-openjdk gedit wireshark-qt \
+	rkhunter virtualbox virtualbox-guest-iso aircrack-ng dnsutils cdrtools cifs-utils whois gdm \
+	android-tools mtr adobe-source-code-pro-fonts atom yaourt dmenu gvfs numlockx scrot rofi exo \
+	playerctl pamixer light feh pidgin lxappearance gsimplecal ttf-font-awesome gucharmap ntp
 	
-	yaourt -S polybar nomachine networkmanager-dmenu-git nerd-fonts-complete etcher woeusb crunch wd719x-firmware aic94xx-firmware paper-icon-theme optimus-manager google-chrome i3lock-fancy-git
+	yaourt -S polybar nomachine networkmanager-dmenu-git nerd-fonts-complete etcher woeusb crunch \
+	wd719x-firmware aic94xx-firmware paper-icon-theme optimus-manager google-chrome i3lock-fancy-git
 
 	pacman -Rscn xorg-fonts-75dpi xorg-fonts-100dpi
 	
