@@ -137,7 +137,10 @@ set_user(){
 	passwd "$muser"
 	sed -i "s/^root ALL=(ALL) ALL$/root ALL=(ALL) ALL\n${muser} ALL=(ALL) ALL\n/" /etc/sudoers
 
-	echo "Success: user create and included on group sudo"   
+	cp /etc/X11/xinit/xinitrc /home/$muser/.xinitrc
+	echo "startx" >> /home/$muser/.xinitrc
+	
+	echo "Success: user create and included on group sudo"
 	sleep 2
 }
 
@@ -146,7 +149,7 @@ set_services(){
 	echo "set services..."
 	systemctl enable NetworkManager
 	systemctl enable bumblebeed
-	systemctl enable gdm
+	systemctl enable slim
 	echo "configured services"
 }
 
@@ -166,7 +169,7 @@ set_install_cin(){
 	privoxy tor lynx telegram-desktop youtube-dl filezilla eog cmus libmp4v2 opusfile wavpack xterm \
 	gnome-terminal vim git gparted scrot bleachbit jre10-openjdk gnome-system-monitor gedit wireshark-qt \
 	rkhunter gnome-calculator electrum virtualbox virtualbox-guest-iso aircrack-ng dnsutils cdrtools cifs-utils \
-	whois gdm android-tools mtr ttf-hack adobe-source-code-pro-fonts atom yaourt pidgin
+	whois slim android-tools mtr ttf-hack adobe-source-code-pro-fonts atom yaourt pidgin
 	
 	yaourt -S polybar nomachine nerd-fonts-complete etcher woeusb crunch wd719x-firmware aic94xx-firmware \
 	paper-icon-theme optimus-manager google-chrome
@@ -201,7 +204,7 @@ set_install_i3(){
 	intel-dri xf86-video-intel bumblebee nvidia bbswitch opencl-nvidia linux-headers openssh i3 \
 	thunar file-roller inkscape bluez blueman bluez-utils lynx telegram-desktop eog cmus libmp4v2 \
 	opusfile wavpack xterm terminator vim git gparted bleachbit jre10-openjdk gedit wireshark-qt \
-	rkhunter virtualbox virtualbox-guest-iso aircrack-ng dnsutils cdrtools cifs-utils whois gdm \
+	rkhunter virtualbox virtualbox-guest-iso aircrack-ng dnsutils cdrtools cifs-utils whois slim \
 	android-tools mtr adobe-source-code-pro-fonts atom yaourt dmenu gvfs numlockx scrot rofi exo \
 	playerctl pamixer light feh pidgin lxappearance gsimplecal ttf-font-awesome gucharmap ntp gwenview
 	
