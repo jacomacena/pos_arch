@@ -171,8 +171,8 @@ set_install_cin(){
 	rkhunter gnome-calculator electrum virtualbox virtualbox-guest-iso aircrack-ng dnsutils cdrtools cifs-utils \
 	whois slim android-tools mtr ttf-hack adobe-source-code-pro-fonts atom yaourt pidgin
 	
-	yaourt -S polybar nomachine nerd-fonts-complete etcher woeusb crunch wd719x-firmware aic94xx-firmware \
-	paper-icon-theme optimus-manager google-chrome
+	#yaourt -S polybar nomachine nerd-fonts-complete etcher woeusb crunch wd719x-firmware aic94xx-firmware \
+	#paper-icon-theme optimus-manager google-chrome
 	
 	pacman -Rscn xorg-fonts-75dpi xorg-fonts-100dpi
 	
@@ -208,8 +208,8 @@ set_install_i3(){
 	android-tools mtr adobe-source-code-pro-fonts atom yaourt dmenu gvfs numlockx scrot rofi exo \
 	playerctl pamixer light feh pidgin lxappearance gsimplecal ttf-font-awesome gucharmap ntp gwenview
 	
-	yaourt -S polybar nomachine networkmanager-dmenu-git nerd-fonts-complete etcher woeusb crunch \
-	wd719x-firmware aic94xx-firmware paper-icon-theme optimus-manager google-chrome i3lock-fancy-git
+	#yaourt -S polybar nomachine networkmanager-dmenu-git nerd-fonts-complete etcher woeusb crunch \
+	#wd719x-firmware aic94xx-firmware paper-icon-theme optimus-manager google-chrome i3lock-fancy-git
 
 	pacman -Rscn xorg-fonts-75dpi xorg-fonts-100dpi
 	
