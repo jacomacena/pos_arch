@@ -197,7 +197,7 @@ set_install_i3(){
 	pacman -Syyyyyuuuuu
 
 	pacman -S sudo bash-completion grub os-prober efibootmgr compton ttf-roboto thunar-volman networkmanager \
-	net-tools intel-ucode artwiz-fonts dina-font terminus-font ttf-bitstream-vera ttf-dejavu ttf-freefont \
+	net-tools intel-ucode dina-font terminus-font ttf-bitstream-vera ttf-dejavu ttf-freefont \
 	ttf-inconsolata ttf-liberation ttf-linux-libertine xorg-fonts-type1 firefox transmission-gtk gimp \
 	libreoffice libreoffice-pt-BR xorg xorg-xinit alsa-lib alsa-utils alsa-firmware alsa-plugins \
 	pulseaudio-alsa pulseaudio vlc tar gzip bzip2 unzip unrar p7zip ntfs-3g wget curl epdfview \
