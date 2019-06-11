@@ -160,7 +160,7 @@ set_install_cin(){
 	pacman -Syyyyyuuuuu
 	
 	pacman -S sudo bash-completion grub os-prober efibootmgr ttf-roboto networkmanager net-tools intel-ucode \
-	artwiz-fonts dina-font terminus-font ttf-bitstream-vera ttf-dejavu ttf-freefont ttf-inconsolata ttf-liberation \
+ dina-font terminus-font ttf-bitstream-vera ttf-dejavu ttf-freefont ttf-inconsolata ttf-liberation \
 	ttf-linux-libertine xorg-fonts-type1 firefox transmission-gtk xf86-input-synaptics flashplugin gimp libreoffice \
 	libreoffice-pt-BR xorg xorg-xinit alsa-lib alsa-utils alsa-firmware alsa-plugins pulseaudio-alsa pulseaudio \
 	vlc tar gzip bzip2 unzip unrar p7zip ntfs-3g wget curl epdfview intel-dri xf86-video-intel bumblebee nvidia \
@@ -172,7 +172,7 @@ set_install_cin(){
 	whois slim android-tools mtr ttf-hack adobe-source-code-pro-fonts atom yaourt pidgin
 	
 	#yaourt -S polybar nomachine nerd-fonts-complete etcher woeusb crunch wd719x-firmware aic94xx-firmware \
-	#paper-icon-theme optimus-manager google-chrome
+	#paper-icon-theme optimus-manager google-chrome artwiz-fonts
 	
 	pacman -Rscn xorg-fonts-75dpi xorg-fonts-100dpi
 	
