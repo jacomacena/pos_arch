@@ -132,7 +132,7 @@ set_user(){
     	muser=$(echo "$u" | tr -d ' _-' | tr 'A-Z' 'a-z')
     
     echo "Your user: $muser:"
-	useradd -m -g users -G wheel,sys,lp,network,video,optical,storage,scanner,storage,power,bumblebee,log,games,disk,vboxusers,wireshark -s /bin/bash "$muser"    
+	useradd -m -g users -G wheel,sys,lp,network,video,optical,scanner,storage,power,bumblebee,log,games,disk,vboxusers,wireshark -s /bin/bash "$muser"    
 	echo "Set password for your user:"
 	passwd "$muser"
 	sed -i "s/^root ALL=(ALL) ALL$/root ALL=(ALL) ALL\n${muser} ALL=(ALL) ALL\n/" /etc/sudoers
