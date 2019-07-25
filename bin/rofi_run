@@ -45,8 +45,14 @@ for arg in "$@"; do
             ;;
         -r|--run)
             rofi -modi run,drun -show drun -line-padding 4 \
-                -columns 2 -padding 20 -hide-scrollbar \
-                -show-icons
+                -columns 3 -lines 15 -padding 20 -hide-scrollbar \
+                -show-icons -width 60 -line-margin 0 \
+		-separator-style none -font "Hack 8" \
+		-color-window "#222222, #222222, #b1b4b3" \
+		-color-normal "#222222, #b1b4b3, #222222, #005577, #b1b4b3" \
+		-color-active "#222222, #b1b4b3, #222222, #007763, #b1b4b3" \
+		-color-urgent "#222222, #b1b4b3, #222222, #77003d, #b1b4b3" \
+		-kb-row-select "Tab" -kb-row-tab ""
             ;;
         -w|--window)
             rofi -modi window -show window -hide-scrollbar -padding 50 -line-padding 4
@@ -55,7 +61,7 @@ for arg in "$@"; do
             hash qalc &>/dev/null ||
                 { echo "Requires 'libqalculate' installed"; exit 1; }
 
-            rofi -modi "calc:qalc +u8 -nocurrencies" -padding 50 \
+            rofi -modi "calc:qalc +u8 -nocurrencies" -padding 10 \
                 -show "calc:qalc +u8 -nocurrencies" -line-padding 4 \
                 -hide-scrollbar
             ;;
@@ -85,12 +91,16 @@ for arg in "$@"; do
                     -lines 3 <<< " Lock| Reboot| Shutdown")"
             else
                 ANS="$(rofi -sep "|" -dmenu -i -p 'System' -width 10 \
-                    -hide-scrollbar -line-padding 4 -padding 20 \
+                    -hide-scrollbar -line-padding 4 -padding 20 -font "Hack 8" \
+		    -color-window "#222222, #222222, #b1b4b3" \
+		    -color-normal "#222222, #b1b4b3, #222222, #005577, #b1b4b3" \
+		    -color-active "#222222, #b1b4b3, #222222, #007763, #b1b4b3" \
+		    -color-urgent "#222222, #b1b4b3, #222222, #77003d, #b1b4b3" \
                     -lines 4 <<< " Lock| Logout| Reboot| Shutdown")"
             fi
 
             case "$ANS" in
-                *Lock) i3lock-fancy ;;
+                *Lock) i3lock-fancy-dualmonitor ;;
                 *Reboot) systemctl reboot ;;
                 *Shutdown) systemctl -i poweroff ;;
                 *Logout) session-logout || pkill -15 -t tty"$XDG_VTNR" Xorg ;;
