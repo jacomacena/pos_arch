@@ -28,6 +28,7 @@ for_window [class="^.*"] border pixel 2, title_format "<b> %class >> %title </b>
 # gaps
 gaps inner 5
 gaps outer 5
+smart_gaps on
 
 # font
 font xft:hack nerd bold 7
@@ -43,8 +44,8 @@ set $left j
 set $right l
 
 # monitors
-set $Mon1 eDP-1
-set $Mon2 HDMI-1
+set $Mon1 eDP1
+set $Mon2 HDMI1
 
 ############################################################
 ##############     Reload configs           ################
@@ -91,7 +92,7 @@ bindsym $Mod+space floating toggle
 floating_modifier  Mod1
 
 bindsym $Mod+Shift+z move scratchpad
-bindsym $Mod+z scratchpad show
+#bindsym $Mod+z scratchpad show
 
 # change focus
 bindsym $Mod+$left  focus left
@@ -131,7 +132,7 @@ bindcode Mod1+23 layout toggle tabbed split
 bindcode $Mod+23 layout toggle splitv splith
 
 # switch to workspace with urgent window
-for_window [urgent="latest"] focus
+for_window [urgent=latest] focus
 focus_on_window_activation   focus
 
 # container layout
@@ -147,15 +148,24 @@ default_orientation horizontal
 ##################     Autostart      #####################
 ###########################################################
 
+exec_always --no-startup-id nitrogen --restore; sleep 1; compton -b
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 exec_always --no-startup-id compton --config $HOME/.config/i3/compton.conf
-exec_always --no-startup-id feh --bg-fill /home/jaco/Pictures/1.jpg
+exec_always --no-startup-id feh --bg-fill $HOME/Imagens/9.jpg
 exec_always --no-startup-id nm-applet
+exec --no-startup-id numlockx on
+exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+
 
 ###########################################################
 #############         Bindings           ##################
 ###########################################################
 
+# hide/unhide i3status bar
+#bindsym $mod+m bar mode toggle
+
+bindsym $mod+m exec --no-startup-id xdo hide -N "Polybar"
+bindsym $mod+s exec --no-startup-id xdo show -N "Polybar"
 
 ################################################################
 ###########          Workspace Bindings          ###############
@@ -216,20 +226,30 @@ bindsym $mod+Mod1+Right workspace next
 ############    application settings   ############
 ###################################################
 
+#Open specific applications in floating mode
+for_window [title="alsamixer"] floating enable border pixel 1
+for_window [class="GParted"] floating enable border normal
+for_window [class="Nitrogen"] floating enable sticky enable border normal
+for_window [class="Pavucontrol"] floating enable
+for_window [title="sudo"] floating enable border normal
+for_window [class="(?i)virtualbox"] floating enable border normal
 for_window [class="(?i)(?:qt5ct|pinentry)"] floating enable, focus
-for_window [class="(?i)(?:termite|thunar)"] focus
-for_window [class="(?i)(?:Brackets|atom|firefox|google-chrome)"]  focus
+for_window [class="(?i)(?:termite|thunar|pcmanfm)"] focus
+for_window [class="(?i)(?:code|Brackets|atom|firefox|google-chrome)"]  focus
 
 # Assign Applications to specific workspace
 # get class with xprop
 #assign [class="(?i)(?:TerminalEmulator)"] → $WS1
 assign [class="(?i)(?:firefox)"] → $WS2
 assign [class="(?i)(?:google-chrome)"] → $WS2
-assign [class="(?i)(?:thunar)"]  → $WS3
+#assign [class="(?i)(?:thunar)"]  → $WS3
+assign [class="(?i)(?:pcmanfm)"]  → $WS3
 assign [class="(?i)(?:transmission-gtk)"]  → $WS4
 assign [class="(?i)(?:pidgin)"]  → $WS5
 assign [class="(?i)(?:telegram)"]   → $WS5
-assign [class="(?i)(?:gedit)"]   → $WS6
+#assign [class="(?i)(?:gedit)"]   → $WS6
+assign [class="(?i)(?:mousepad)"]   → $WS6
+assign [class="(?i)(?:code)"]   → $WS6
 #assign [class="(?i)(?:atom)"]   → $WS6
 
 # focus, floating, & sticky
@@ -280,20 +300,24 @@ workspace_auto_back_and_forth yes
 bindsym $Mod+Shift+q kill
 #bindsym Mod1+q kill
 bindsym Mod1+F4 kill
+bindsym $mod+Ctrl+x --release exec --no-startup-id xkill
 
 # logout script
 bindsym $Mod+x exec --no-startup-id $HOME/.bin/rofi_run -l
+bindsym $Mod+g exec --no-startup-id $HOME/.bin/rofi_run -q
 
 # launchers
 #bindsym Control+space exec --no-startup-id $HOME/.bin/rofi_run -r
 bindsym $mod+d exec --no-startup-id $HOME/.bin/rofi_run -r
 #bindsym $mod+d exec --no-startup-id rofi -combi-modi window#drun -show combi -modi combi -show-icons -theme "gruvbox-dark-hard" -font "Hack 8"
 bindsym Mod1+F1 exec dmenu_run -fn 'xft:Hack:pixelsize=10' -nb '#191919' -nf '#9ac0cd' -sb '#191919' -sf '#00ff00'
+bindsym $mod+z exec --no-startup-id morc_menu
+bindsym $mod+Ctrl+m exec terminal -e 'alsamixer'
 
 # Screenshot
-bindsym Print exec --no-startup-id scrot -e 'mv $f /home/jaco/Pictures/shots/'
-bindsym --release Shift+Print exec --no-startup-id scrot -s -e 'mv $f /home/jaco/Pictures/shots/'
-bindsym --release Control+Print exec --no-startup-id scrot -u -e 'mv $f /home/jaco/Pictures/shots/'
+bindsym Print exec --no-startup-id scrot -e 'mv $f /home/jaco/Imagens/shots/'
+bindsym --release Shift+Print exec --no-startup-id scrot -s -e 'mv $f /home/jaco/Imagens/shots/'
+bindsym --release Control+Print exec --no-startup-id scrot -u -e 'mv $f /home/jaco/Imagens/shots/'
 #bindsym Print exec --no-startup-id flameshot gui
 
 # core
@@ -317,12 +341,12 @@ bindsym XF86MonBrightnessDown exec --no-startup-id light -U 10
 
 ## Manual management of external displays
 # Set the shortcuts and what they do
-set $mode_display Ext Screen: HDMI ON (h), VGA OFF (x), HDMI OFF (o)
+set $mode_display Ext Screen: HDMI ON (h), HDMI OFF (o)
 mode "$mode_display" {
-#    bindsym v exec --no-startup-id xrandr --output eDP-1 --auto --right-of LVDS-1, mode "default"
-    bindsym h exec --no-startup-id xrandr --output HDMI-1 --auto --left-of eDP-1, mode "default"
-    bindsym x exec --no-startup-id xrandr --output eDP-1 --auto --off, mode "default"
-    bindsym o exec --no-startup-id xrandr --output HDMI-1 --auto --off, mode "default"
+#    bindsym v exec --no-startup-id xrandr --output eDP1 --auto --right-of LVDS1, mode "default"
+    bindsym h exec --no-startup-id xrandr --output HDMI1 --auto --right-of eDP1, mode "default"
+#    bindsym x exec --no-startup-id xrandr --output eDP1 --auto --off, mode "default"
+    bindsym o exec --no-startup-id xrandr --output HDMI1 --auto --off, mode "default"
 
     # back to normal: Enter or Escape
     bindsym Return mode "default"
