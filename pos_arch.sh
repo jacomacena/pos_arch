@@ -36,8 +36,8 @@ usage: ${0##*/} [flags] [options]
   
     --install-cinnamon, -ic              Install all packages (Cinnamon)
     --install-i3, -ii3			 Install all packages (I3)
-    --help, -h                           Show this is message
-
+    --remove, -u			 Remove all packages (keeps the base)
+    --help, -h				 Show this is message
 EOF
 }
 
@@ -45,6 +45,10 @@ if [[ -z $1 || $1 = @(-h|--help) ]]; then
   usage
   exit $(( $# ? 0 : 1 ))
 fi
+
+set_remove(){
+	pacman -R $(comm -23 <(pacman -Qq | sort) <((for i in $(pacman -Qqg base); do pactree -ul "$i"; done) | sort -u))
+}
 
 set_pacman(){
 
@@ -231,6 +235,7 @@ case "$1" in
 
     "--install-cinnamon"|"-ic") set_install_cin;;
     "--install-i3"|"-ii3") set_install_i3;;
+    "--remove"|"-u") set_remove;;
     "--help"|"-h") usage ;;
     *) echo "Invalid option." && usage ;;
 
