@@ -4,7 +4,9 @@
 Script that will facilitate the post installation of Arch Linux with I3 graphical environment.
 
 After command "arch-chroot / mnt"
+
 Steps:
+
 \# pacman -S git
 
 \# git clone https://github.com/jacomacena/pos_arch.git
