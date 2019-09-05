@@ -34,8 +34,7 @@ usage: ${0##*/} [flags] [options]
 
   Options:
   
-    --install-cinnamon, -ic              Install all packages (Cinnamon)
-    --install-i3, -ii3			 Install all packages (I3)
+    --install, -i			 Install all packages (I3)
     --remove, -u			 Remove all packages (keeps the base)
     --help, -h				 Show this is message
 EOF
@@ -191,43 +190,6 @@ set_pacman(){
 	pacman -S android-tools code pidgin lxappearance gsimplecal gwenview vlc epdfview
 }
 
-set_install_cin(){
-
-	set_pacman
-	
-	pacman -Syyyyyuuuuu
-	
-	pacman -S sudo bash-completion grub os-prober efibootmgr ttf-roboto networkmanager net-tools intel-ucode \
- dina-font terminus-font ttf-bitstream-vera ttf-dejavu ttf-freefont ttf-inconsolata ttf-liberation \
-	ttf-linux-libertine xorg-fonts-type1 firefox transmission-gtk xf86-input-synaptics flashplugin gimp libreoffice \
-	libreoffice-pt-BR xorg xorg-xinit alsa-lib alsa-utils alsa-firmware alsa-plugins pulseaudio-alsa pulseaudio \
-	vlc tar gzip bzip2 unzip unrar p7zip ntfs-3g wget curl epdfview intel-dri xf86-video-intel bumblebee nvidia \
-	bbswitch lib32-nvidia-utils lib32-intel-dri opencl-nvidia lib32-virtualgl linux-headers openssh \
-	nemo-fileroller inkscape xdg-user-dirs bluez blueman bluez-utils networkmanager-pptp networkmanager-openvpn \
-	privoxy tor lynx telegram-desktop youtube-dl filezilla eog cmus libmp4v2 opusfile wavpack xterm \
-	gnome-terminal vim git gparted scrot bleachbit jre10-openjdk gnome-system-monitor gedit wireshark-qt \
-	rkhunter gnome-calculator electrum virtualbox virtualbox-guest-iso aircrack-ng dnsutils cdrtools cifs-utils \
-	whois slim android-tools mtr ttf-hack adobe-source-code-pro-fonts atom yaourt pidgin
-	
-	#yaourt -S polybar nomachine nerd-fonts-complete etcher woeusb crunch wd719x-firmware aic94xx-firmware \
-	#paper-icon-theme optimus-manager google-chrome artwiz-fonts
-	
-	#pacman -Rscn xorg-fonts-75dpi xorg-fonts-100dpi
-	
-	pass_root
-	
-	set_lang
-	
-	name_machine
-	
-	boot_grub
-	
-	set_user
-	
-	set_services
-
-}
-
 set_install_i3(){
 
 	set_pacman
@@ -257,8 +219,7 @@ set_install_i3(){
 
 case "$1" in
 
-    "--install-cinnamon"|"-ic") set_install_cin;;
-    "--install-i3"|"-ii3") set_install_i3;;
+    "--install"|"-i") set_install_i3;;
     "--remove"|"-u") set_remove;;
     "--help"|"-h") usage ;;
     *) echo "Invalid option." && usage ;;
