@@ -164,7 +164,7 @@ set_pacman(){
 	pacman -S ttf-inconsolata ttf-liberation ttf-linux-libertine xorg-fonts-type1 firefox transmission-gtk gimp
 	pacman -S libreoffice libreoffice-pt-BR xorg xorg-xinit alsa-lib alsa-utils alsa-firmware alsa-plugins
 	pacman -S pulseaudio-alsa pulseaudio vlc tar gzip bzip2 unzip unrar p7zip ntfs-3g wget curl epdfview
-	pacman -S intel-dri xf86-video-intel bumblebee nvidia bbswitch opencl-nvidia linux-headers openssh
+	pacman -S intel-dri xf86-video-intel bumblebee nvidia bbswitch opencl-nvidia linux-headers openssh i3
 	pacman -S thunar file-roller inkscape bluez blueman bluez-utils lynx telegram-desktop eog cmus libmp4v2
 	pacman -S opusfile wavpack xterm terminator vim git gparted bleachbit jre10-openjdk gedit wireshark-qt
 	pacman -S rkhunter virtualbox virtualbox-guest-iso aircrack-ng dnsutils cdrtools cifs-utils whois slim
