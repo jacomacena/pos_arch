@@ -178,7 +178,7 @@ set_install_cin(){
 	#yaourt -S polybar nomachine nerd-fonts-complete etcher woeusb crunch wd719x-firmware aic94xx-firmware \
 	#paper-icon-theme optimus-manager google-chrome artwiz-fonts
 	
-	pacman -Rscn xorg-fonts-75dpi xorg-fonts-100dpi
+	#pacman -Rscn xorg-fonts-75dpi xorg-fonts-100dpi
 	
 	pass_root
 	
@@ -215,7 +215,7 @@ set_install_i3(){
 	#yaourt -S polybar nomachine networkmanager-dmenu-git nerd-fonts-complete etcher woeusb crunch \
 	#wd719x-firmware aic94xx-firmware paper-icon-theme optimus-manager google-chrome i3lock-fancy-git
 
-	pacman -Rscn xorg-fonts-75dpi xorg-fonts-100dpi
+	#pacman -Rscn xorg-fonts-75dpi xorg-fonts-100dpi
 	
 	pass_root
 	
