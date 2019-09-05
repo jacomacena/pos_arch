@@ -157,6 +157,21 @@ set_services(){
 	echo "configured services"
 }
 
+set_pacman(){
+
+	pacman -S sudo bash-completion grub os-prober efibootmgr compton ttf-roboto thunar-volman networkmanager
+	pacman -S net-tools intel-ucode dina-font terminus-font ttf-bitstream-vera ttf-dejavu ttf-freefont
+	pacman -S ttf-inconsolata ttf-liberation ttf-linux-libertine xorg-fonts-type1 firefox transmission-gtk gimp
+	pacman -S libreoffice libreoffice-pt-BR xorg xorg-xinit alsa-lib alsa-utils alsa-firmware alsa-plugins
+	pacman -S pulseaudio-alsa pulseaudio vlc tar gzip bzip2 unzip unrar p7zip ntfs-3g wget curl epdfview
+	pacman -S intel-dri xf86-video-intel bumblebee nvidia bbswitch opencl-nvidia linux-headers openssh
+	pacman -S thunar file-roller inkscape bluez blueman bluez-utils lynx telegram-desktop eog cmus libmp4v2
+	pacman -S opusfile wavpack xterm terminator vim git gparted bleachbit jre10-openjdk gedit wireshark-qt
+	pacman -S rkhunter virtualbox virtualbox-guest-iso aircrack-ng dnsutils cdrtools cifs-utils whois slim
+	pacman -S android-tools mtr adobe-source-code-pro-fonts atom yaourt dmenu gvfs numlockx scrot rofi exo
+	pacman -S playerctl pamixer light feh pidgin lxappearance gsimplecal ttf-font-awesome gucharmap ntp gwenview
+}
+
 set_install_cin(){
 
 	set_pacman
@@ -168,7 +183,7 @@ set_install_cin(){
 	ttf-linux-libertine xorg-fonts-type1 firefox transmission-gtk xf86-input-synaptics flashplugin gimp libreoffice \
 	libreoffice-pt-BR xorg xorg-xinit alsa-lib alsa-utils alsa-firmware alsa-plugins pulseaudio-alsa pulseaudio \
 	vlc tar gzip bzip2 unzip unrar p7zip ntfs-3g wget curl epdfview intel-dri xf86-video-intel bumblebee nvidia \
-	bbswitch lib32-nvidia-utils lib32-intel-dri opencl-nvidia lib32-virtualgl linux-headers openssh cinnamon \
+	bbswitch lib32-nvidia-utils lib32-intel-dri opencl-nvidia lib32-virtualgl linux-headers openssh \
 	nemo-fileroller inkscape xdg-user-dirs bluez blueman bluez-utils networkmanager-pptp networkmanager-openvpn \
 	privoxy tor lynx telegram-desktop youtube-dl filezilla eog cmus libmp4v2 opusfile wavpack xterm \
 	gnome-terminal vim git gparted scrot bleachbit jre10-openjdk gnome-system-monitor gedit wireshark-qt \
@@ -200,17 +215,7 @@ set_install_i3(){
 	
 	pacman -Syyyyyuuuuu
 
-	pacman -S sudo bash-completion grub os-prober efibootmgr compton ttf-roboto thunar-volman networkmanager \
-	net-tools intel-ucode dina-font terminus-font ttf-bitstream-vera ttf-dejavu ttf-freefont \
-	ttf-inconsolata ttf-liberation ttf-linux-libertine xorg-fonts-type1 firefox transmission-gtk gimp \
-	libreoffice libreoffice-pt-BR xorg xorg-xinit alsa-lib alsa-utils alsa-firmware alsa-plugins \
-	pulseaudio-alsa pulseaudio vlc tar gzip bzip2 unzip unrar p7zip ntfs-3g wget curl epdfview \
-	intel-dri xf86-video-intel bumblebee nvidia bbswitch opencl-nvidia linux-headers openssh i3 \
-	thunar file-roller inkscape bluez blueman bluez-utils lynx telegram-desktop eog cmus libmp4v2 \
-	opusfile wavpack xterm terminator vim git gparted bleachbit jre10-openjdk gedit wireshark-qt \
-	rkhunter virtualbox virtualbox-guest-iso aircrack-ng dnsutils cdrtools cifs-utils whois slim \
-	android-tools mtr adobe-source-code-pro-fonts atom yaourt dmenu gvfs numlockx scrot rofi exo \
-	playerctl pamixer light feh pidgin lxappearance gsimplecal ttf-font-awesome gucharmap ntp gwenview
+	set_pacman
 	
 	#yaourt -S polybar nomachine networkmanager-dmenu-git nerd-fonts-complete etcher woeusb crunch \
 	#wd719x-firmware aic94xx-firmware paper-icon-theme optimus-manager google-chrome i3lock-fancy-git
