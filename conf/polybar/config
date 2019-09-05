@@ -24,9 +24,9 @@ include-file = $HOME/.config/polybar/modules.conf
 
 [bar/top]
 inherit = bar/master
-monitor = eDP-1
+monitor = eDP1
 
 modules-left   = menu i3
-modules-center = clock
+;modules-center = clock
 ;modules-right  = ${env:POLYBAR_MODULES:coreuse temperature memory pkg network volume}
-modules-right  = backlight volume-bar coreuse memory battery
+modules-right  = backlight volume-bar coreuse memory battery clock
