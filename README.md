@@ -6,8 +6,11 @@ Script that will facilitate the post installation of Arch Linux with I3 graphica
 After command "arch-chroot / mnt"
 Steps:
 \# pacman -S git
+
 \# git clone https://github.com/jacomacena/pos_arch.git
+
 \# cd pos_arch
+
 \# run chmod +x pos_arch.sh
 
 After changing / adding the execute mode in the pos_arch.sh file (chmod + x pos_arch.sh) simply execute the following forms:
