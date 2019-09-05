@@ -174,6 +174,7 @@ set_pacman(){
 	echo "Install Video..."
 	sleep 2
 	pacman -S intel-dri xf86-video-intel bumblebee nvidia bbswitch opencl-nvidia linux-headers
+	pacman -S lib32-nvidia-430xx-utils nvidia-430xx-utils lib32-primus
 
 	clear
 	echo "Install WM..."
