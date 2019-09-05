@@ -160,35 +160,35 @@ set_pacman(){
 	clear
 	echo "Install Base..."
 	sleep 2
-	pacman -S sudo zsh bash-completion grub os-prober efibootmgr net-tools intel-ucode lynx tar gzip bzip2 unzip unrar p7zip
-	pacman -S xorg xorg-xinit alsa-lib alsa-utils alsa-firmware alsa-plugins pulseaudio-alsa pulseaudio
-	pacman -S xterm vim git rkhunter mtr yaourt aircrack-ng dnsutils ntfs-3g wget curl openssh whois cifs-utils
+	pacman -S sudo zsh bash-completion grub os-prober efibootmgr net-tools intel-ucode lynx tar gzip bzip2 unzip unrar p7zip --noconfirm
+	pacman -S xorg xorg-xinit alsa-lib alsa-utils alsa-firmware alsa-plugins pulseaudio-alsa pulseaudio --noconfirm
+	pacman -S xterm vim git rkhunter mtr yaourt aircrack-ng dnsutils ntfs-3g wget curl openssh whois cifs-utils --noconfirm
 
 	clear
 	echo "Install Fonts..."
 	sleep 2
-	pacman -S dina-font terminus-font ttf-bitstream-vera ttf-dejavu ttf-freefont ttf-roboto ttf-font-awesome
-	pacman -S ttf-inconsolata adobe-source-code-pro-fonts ttf-liberation ttf-linux-libertine xorg-fonts-type1
+	pacman -S dina-font terminus-font ttf-bitstream-vera ttf-dejavu ttf-freefont ttf-roboto ttf-font-awesome --noconfirm
+	pacman -S ttf-inconsolata adobe-source-code-pro-fonts ttf-liberation ttf-linux-libertine xorg-fonts-type1 --noconfirm
 
 	clear
 	echo "Install Video..."
 	sleep 2
-	pacman -S intel-dri xf86-video-intel bumblebee nvidia bbswitch opencl-nvidia linux-headers
-	pacman -S lib32-nvidia-430xx-utils nvidia-430xx-utils lib32-primus
+	pacman -S intel-dri xf86-video-intel bumblebee nvidia bbswitch opencl-nvidia linux-headers --noconfirm
+	pacman -S lib32-nvidia-430xx-utils nvidia-430xx-utils lib32-primus --noconfirm
 
 	clear
 	echo "Install WM..."
 	sleep 2
-	pacman -S i3 dmenu compton slim rofi exo libmp4v2 cmus gvfs
-	pacman -S playerctl pamixer light feh thunar thunar-volman networkmanager file-roller terminator
-	pacman -S opusfile wavpack bluez blueman bluez-utils cdrtools numlockx scrot
+	pacman -S i3 dmenu compton slim rofi exo libmp4v2 cmus gvfs --noconfirm
+	pacman -S playerctl pamixer light feh thunar thunar-volman networkmanager file-roller terminator --noconfirm
+	pacman -S opusfile wavpack bluez blueman bluez-utils cdrtools numlockx scrot --noconfirm
 
 	clear
 	echo "Install Apps..."
 	sleep 2
-	pacman -S gparted inkscape bleachbit jre10-openjdk gedit wireshark-qt firefox transmission-gtk gimp
-	pacman -S libreoffice libreoffice-pt-BR virtualbox virtualbox-guest-iso telegram-desktop neofetch
-	pacman -S android-tools code pidgin lxappearance gsimplecal gwenview vlc epdfview
+	pacman -S gparted inkscape bleachbit jre10-openjdk gedit wireshark-qt firefox transmission-gtk gimp --noconfirm
+	pacman -S libreoffice libreoffice-pt-BR virtualbox virtualbox-guest-iso telegram-desktop neofetch --noconfirm
+	pacman -S android-tools code pidgin lxappearance gsimplecal gwenview vlc epdfview --noconfirm
 }
 
 set_install_i3(){
