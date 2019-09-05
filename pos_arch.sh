@@ -158,18 +158,37 @@ set_services(){
 }
 
 set_pacman(){
+	clear
+	echo "Install Base..."
+	sleep 2
+	pacman -S sudo zsh bash-completion grub os-prober efibootmgr net-tools intel-ucode lynx tar gzip bzip2 unzip unrar p7zip
+	pacman -S xorg xorg-xinit alsa-lib alsa-utils alsa-firmware alsa-plugins pulseaudio-alsa pulseaudio
+	pacman -S xterm vim git rkhunter mtr yaourt aircrack-ng dnsutils ntfs-3g wget curl openssh whois cifs-utils
 
-	pacman -S sudo bash-completion grub os-prober efibootmgr compton ttf-roboto thunar-volman networkmanager
-	pacman -S net-tools intel-ucode dina-font terminus-font ttf-bitstream-vera ttf-dejavu ttf-freefont
-	pacman -S ttf-inconsolata ttf-liberation ttf-linux-libertine xorg-fonts-type1 firefox transmission-gtk gimp
-	pacman -S libreoffice libreoffice-pt-BR xorg xorg-xinit alsa-lib alsa-utils alsa-firmware alsa-plugins
-	pacman -S pulseaudio-alsa pulseaudio vlc tar gzip bzip2 unzip unrar p7zip ntfs-3g wget curl epdfview
-	pacman -S intel-dri xf86-video-intel bumblebee nvidia bbswitch opencl-nvidia linux-headers openssh i3
-	pacman -S thunar file-roller inkscape bluez blueman bluez-utils lynx telegram-desktop eog cmus libmp4v2
-	pacman -S opusfile wavpack xterm terminator vim git gparted bleachbit jre10-openjdk gedit wireshark-qt
-	pacman -S rkhunter virtualbox virtualbox-guest-iso aircrack-ng dnsutils cdrtools cifs-utils whois slim
-	pacman -S android-tools mtr adobe-source-code-pro-fonts atom yaourt dmenu gvfs numlockx scrot rofi exo
-	pacman -S playerctl pamixer light feh pidgin lxappearance gsimplecal ttf-font-awesome gucharmap ntp gwenview
+	clear
+	echo "Install Fonts..."
+	sleep 2
+	pacman -S dina-font terminus-font ttf-bitstream-vera ttf-dejavu ttf-freefont ttf-roboto ttf-font-awesome
+	pacman -S ttf-inconsolata adobe-source-code-pro-fonts ttf-liberation ttf-linux-libertine xorg-fonts-type1
+
+	clear
+	echo "Install Video..."
+	sleep 2
+	pacman -S intel-dri xf86-video-intel bumblebee nvidia bbswitch opencl-nvidia linux-headers
+
+	clear
+	echo "Install WM..."
+	sleep 2
+	pacman -S i3 dmenu compton slim rofi exo libmp4v2 cmus gvfs
+	pacman -S playerctl pamixer light feh thunar thunar-volman networkmanager file-roller terminator
+	pacman -S opusfile wavpack bluez blueman bluez-utils cdrtools numlockx scrot
+
+	clear
+	echo "Install Apps..."
+	sleep 2
+	pacman -S gparted inkscape bleachbit jre10-openjdk gedit wireshark-qt firefox transmission-gtk gimp
+	pacman -S libreoffice libreoffice-pt-BR virtualbox virtualbox-guest-iso telegram-desktop neofetch
+	pacman -S android-tools code pidgin lxappearance gsimplecal gwenview vlc epdfview
 }
 
 set_install_cin(){
