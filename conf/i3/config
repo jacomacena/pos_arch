@@ -28,7 +28,7 @@ for_window [class="^.*"] border pixel 2, title_format "<b> %class >> %title </b>
 # gaps
 gaps inner 5
 gaps outer 5
-smart_gaps on
+#smart_gaps on
 
 # font
 font xft:hack nerd bold 7
