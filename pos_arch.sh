@@ -179,9 +179,9 @@ set_pacman(){
 	clear
 	echo "Install WM..."
 	sleep 2
-	pacman -S i3 dmenu compton slim rofi exo libmp4v2 cmus gvfs --noconfirm
+	pacman -S i3 dmenu compton slim rofi exo libmp4v2 cmus gvfs network-manager-applet --noconfirm
 	pacman -S playerctl pamixer light feh thunar thunar-volman networkmanager file-roller terminator --noconfirm
-	pacman -S opusfile wavpack bluez blueman bluez-utils cdrtools numlockx scrot --noconfirm
+	pacman -S opusfile wavpack bluez blueman bluez-utils cdrtools numlockx scrot nitrogen --noconfirm
 
 	clear
 	echo "Install Apps..."
