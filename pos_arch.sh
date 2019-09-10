@@ -156,7 +156,7 @@ set_services(){
 	echo "configured services"
 }
 
-set_pacman(){
+set_pkgs(){
 	clear
 	echo "Install Base..."
 	sleep 2
@@ -197,7 +197,7 @@ set_install_i3(){
 	
 	pacman -Syyyyyuuuuu
 
-	set_pacman
+	set_pkgs
 	
 	#yaourt -S polybar nomachine networkmanager-dmenu-git nerd-fonts-complete etcher woeusb crunch \
 	#wd719x-firmware aic94xx-firmware paper-icon-theme optimus-manager google-chrome i3lock-fancy-git
