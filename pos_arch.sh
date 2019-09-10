@@ -141,7 +141,7 @@ set_user(){
 	sed -i "s/^root ALL=(ALL) ALL$/root ALL=(ALL) ALL\n${muser} ALL=(ALL) ALL\n/" /etc/sudoers
 
 	cp /etc/X11/xinit/xinitrc /home/$muser/.xinitrc
-	echo "startx" >> /home/$muser/.xinitrc
+	echo "exec i3" >> /home/$muser/.xinitrc
 	
 	echo "Success: user create and included on group sudo"
 	sleep 2
@@ -199,11 +199,6 @@ set_install_i3(){
 
 	set_pkgs
 	
-	#yaourt -S polybar nomachine networkmanager-dmenu-git nerd-fonts-complete etcher woeusb crunch \
-	#wd719x-firmware aic94xx-firmware paper-icon-theme optimus-manager google-chrome i3lock-fancy-git
-
-	#pacman -Rscn xorg-fonts-75dpi xorg-fonts-100dpi
-	
 	pass_root
 	
 	set_lang
@@ -215,7 +210,12 @@ set_install_i3(){
 	set_user
 	
 	set_services
-
+	
+	clear
+	echo "To finalize the settings, reboot the system and install via yaourt the following packages:"
+	echo "polybar nerd-fonts-complete wd719x-firmware aic94xx-firmware paper-icon-theme optimus-manager google-chrome i3lock-fancy-git"
+	sleep 10
+	
 }
 
 case "$1" in
