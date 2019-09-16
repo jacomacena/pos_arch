@@ -312,7 +312,7 @@ bindsym $mod+d exec --no-startup-id $HOME/.bin/rofi_run -r
 #bindsym $mod+d exec --no-startup-id rofi -combi-modi window#drun -show combi -modi combi -show-icons -theme "gruvbox-dark-hard" -font "Hack 8"
 bindsym Mod1+F1 exec dmenu_run -fn 'xft:Hack:pixelsize=10' -nb '#191919' -nf '#9ac0cd' -sb '#191919' -sf '#00ff00'
 bindsym $mod+z exec --no-startup-id morc_menu
-bindsym $mod+Ctrl+m exec terminal -e 'alsamixer'
+bindsym $mod+Ctrl+m exec pavucontrol
 
 # Screenshot
 bindsym Print exec --no-startup-id scrot -e 'mv $f /home/jaco/Imagens/shots/'
