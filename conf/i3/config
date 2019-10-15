@@ -341,11 +341,11 @@ bindsym XF86MonBrightnessDown exec --no-startup-id light -U 10
 
 ## Manual management of external displays
 # Set the shortcuts and what they do
-set $mode_display Ext Screen: HDMI ON (h), HDMI OFF (o)
+set $mode_display Ext Screen: HDMI ON (h), HDMI OFF (o), eDP1 ON (v), eDP1 OFF (x)
 mode "$mode_display" {
-#    bindsym v exec --no-startup-id xrandr --output eDP1 --auto --right-of LVDS1, mode "default"
+    bindsym v exec --no-startup-id xrandr --output eDP1 --auto --left-of HDMI1, mode "default"
     bindsym h exec --no-startup-id xrandr --output HDMI1 --auto --right-of eDP1, mode "default"
-#    bindsym x exec --no-startup-id xrandr --output eDP1 --auto --off, mode "default"
+    bindsym x exec --no-startup-id xrandr --output eDP1 --auto --off, mode "default"
     bindsym o exec --no-startup-id xrandr --output HDMI1 --auto --off, mode "default"
 
     # back to normal: Enter or Escape
