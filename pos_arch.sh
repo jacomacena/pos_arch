@@ -160,6 +160,7 @@ set_pkgs(){
 	clear
 	echo "Install Base..."
 	sleep 2
+	pacman -S linux linux-headers linux-firmware --noconfirm
 	pacman -S sudo zsh bash-completion grub os-prober efibootmgr net-tools intel-ucode lynx tar gzip bzip2 unzip unrar p7zip --noconfirm
 	pacman -S xorg xorg-xinit alsa-lib alsa-utils alsa-firmware alsa-plugins pulseaudio-alsa pulseaudio --noconfirm
 	pacman -S xterm vim git rkhunter mtr yaourt aircrack-ng dnsutils ntfs-3g wget curl openssh whois cifs-utils --noconfirm
@@ -173,7 +174,7 @@ set_pkgs(){
 	clear
 	echo "Install Video..."
 	sleep 2
-	pacman -S intel-dri xf86-video-intel bumblebee nvidia bbswitch opencl-nvidia linux-headers --noconfirm
+	pacman -S intel-dri xf86-video-intel bumblebee nvidia bbswitch opencl-nvidia --noconfirm
 	pacman -S lib32-nvidia-430xx-utils nvidia-430xx-utils lib32-primus --noconfirm
 
 	clear
