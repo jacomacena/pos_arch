@@ -3,7 +3,7 @@
 
 Script that will facilitate the post installation of Arch Linux with I3 graphical environment.
 
-After command "arch-chroot / mnt"
+After command "arch-chroot /mnt /bin/bash"
 
 Steps:
 
@@ -15,7 +15,7 @@ Steps:
 
 \# run chmod +x pos_arch.sh
 
-After changing / adding the execute mode in the pos_arch.sh file (chmod + x pos_arch.sh) simply execute the following forms:
+After changing/adding the execute mode in the pos_arch.sh file (chmod +x pos_arch.sh) simply execute the following forms:
 
 \# ./pos_arch.sh -i (for I3 installation)
 
