@@ -174,8 +174,8 @@ set_pkgs(){
 	clear
 	echo "Install Video..."
 	sleep 2
-	pacman -S intel-dri xf86-video-intel bumblebee nvidia bbswitch opencl-nvidia --noconfirm
-	pacman -S lib32-nvidia-430xx-utils nvidia-430xx-utils lib32-primus --noconfirm
+	pacman -S xf86-video-intel bumblebee nvidia bbswitch opencl-nvidia --noconfirm
+	#pacman -S lib32-nvidia-430xx-utils nvidia-430xx-utils lib32-primus --noconfirm
 
 	clear
 	echo "Install WM..."
