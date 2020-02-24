@@ -160,16 +160,16 @@ set_pkgs(){
 	clear
 	echo "Install Base..."
 	sleep 2
-	pacman -S linux linux-headers linux-firmware --noconfirm
+	pacman -S linux linux-{headers,firmware} --noconfirm
 	pacman -S sudo zsh bash-completion grub os-prober efibootmgr net-tools intel-ucode lynx tar gzip bzip2 unzip unrar p7zip --noconfirm
-	pacman -S xorg xorg-xinit alsa-lib alsa-utils alsa-firmware alsa-plugins pulseaudio-alsa pulseaudio --noconfirm
+	pacman -S xorg xorg-xinit alsa-{lib,utils,firmware,plugins} pulseaudio-alsa pulseaudio --noconfirm
 	pacman -S xterm vim git rkhunter mtr yaourt aircrack-ng dnsutils ntfs-3g wget curl openssh whois cifs-utils --noconfirm
 
 	clear
 	echo "Install Fonts..."
 	sleep 2
-	pacman -S dina-font terminus-font ttf-bitstream-vera ttf-dejavu ttf-freefont ttf-roboto ttf-font-awesome --noconfirm
-	pacman -S ttf-inconsolata adobe-source-code-pro-fonts ttf-liberation ttf-linux-libertine xorg-fonts-type1 --noconfirm
+	pacman -S ttf-{bitstream-vera,dejavu,inconsolata,freefont,roboto,font-awesome,liberation,linux-libertine} --noconfirm
+	pacman -S dina-font terminus-font adobe-source-code-pro-fonts xorg-fonts-type1 --noconfirm
 
 	clear
 	echo "Install Video..."
