@@ -232,7 +232,8 @@ for_window [class="GParted"] floating enable border normal
 for_window [class="Nitrogen"] floating enable sticky enable border normal
 for_window [class="Pavucontrol"] floating enable
 for_window [title="sudo"] floating enable border normal
-#for_window [class="(?i)virtualbox"] floating enable border normal
+for_window [class="(?i)virtualbox"] floating enable border normal
+for_window [class="(?i)spotify"] floating enable border normal
 for_window [class="(?i)(?:qt5ct|pinentry)"] floating enable, focus
 for_window [class="(?i)(?:termite|thunar|pcmanfm)"] focus
 for_window [class="(?i)(?:code|Brackets|atom|firefox|google-chrome)"]  focus
@@ -251,6 +252,7 @@ assign [class="(?i)(?:telegram)"]   → $WS5
 assign [class="(?i)(?:mousepad)"]   → $WS6
 assign [class="(?i)(?:code)"]   → $WS6
 #assign [class="(?i)(?:atom)"]   → $WS6
+assign [class="(?i)(?:remmina)"]   → $WS7
 
 # focus, floating, & sticky
 for_window [title="(?i)(?:copying|deleting|moving)"] floating enable
