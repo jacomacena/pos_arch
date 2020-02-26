@@ -181,8 +181,8 @@ set_pkgs(){
 	echo "Install WM..."
 	sleep 2
 	pacman -S i3 dmenu compton slim rofi exo libmp4v2 cmus gvfs network-manager-applet --noconfirm
-	pacman -S playerctl pamixer light feh thunar thunar-volman networkmanager file-roller terminator --noconfirm
-	pacman -S opusfile wavpack bluez blueman bluez-utils cdrtools pavucontrol numlockx scrot nitrogen --noconfirm
+	pacman -S playerctl pamixer light feh pcmanfm xarchiver networkmanager file-roller terminator --noconfirm
+	pacman -S opusfile wavpack bluez blueman bluez-utils cdrtools pavucontrol numlockx scrot nitrogen cpio arj lrzip lz4 unrar lzip --noconfirm
 
 	clear
 	echo "Install Apps..."
