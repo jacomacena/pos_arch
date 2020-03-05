@@ -187,7 +187,7 @@ set_pkgs(){
 	clear
 	echo "Install Apps..."
 	sleep 2
-	pacman -S gparted inkscape bleachbit jre10-openjdk gedit wireshark-qt firefox transmission-gtk gimp --noconfirm
+	pacman -S gparted ghostscript inkscape bleachbit jre10-openjdk gedit wireshark-qt firefox transmission-gtk gimp --noconfirm
 	pacman -S libreoffice libreoffice-pt-BR virtualbox virtualbox-guest-iso telegram-desktop neofetch --noconfirm
 	pacman -S android-tools code pidgin arc-gtk-theme pepper-flash lxappearance gsimplecal gwenview vlc epdfview --noconfirm
 }
