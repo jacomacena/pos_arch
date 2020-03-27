@@ -3,24 +3,24 @@
 ###########################################################
 
 # Xresources      var      value       fallback
-set_from_resource $bg      background  #19043C
+set_from_resource $bg      background  #00d162
 set_from_resource $fg      foreground  #F1F1F1
-set_from_resource $black   color0      #19043C
-set_from_resource $red     color1      #EE79A9
-set_from_resource $green   color2      #49da00
-set_from_resource $yellow  color3      #DE935F
+set_from_resource $black   color0      #000000
+set_from_resource $red     color1      #d10000
+set_from_resource $green   color2      #00bcd4
+set_from_resource $yellow  color3      #ffff1c
 set_from_resource $blue    color4      #003190
 set_from_resource $purple  color5      #85678F
 set_from_resource $cyan    color6      #5E8D87
-set_from_resource $grey    color7      #969CD3
+set_from_resource $grey    color7      #65656b
 
-# class                 bd    bg  txt    ind   child_bd
-client.focused          $grey $bg $fg    $blue $blue
-client.unfocused        $grey $bg $black $bg   $bg
-client.focused_inactive $grey $bg $black $bg   $bg
-client.urgent           $red  $bg $red   $red  $red
-client.placeholder      $grey $bg $bg    $bg   $bg
-client.background       $bg
+#<colorclass>           <border> <background> <text> <indicator> <child_border>
+client.focused           $grey       $bg       $fg     $green        $green
+client.unfocused         $grey       $bg       $black  $blue         $blue
+client.focused_inactive  $grey       $bg       $black  $blue         $blue
+client.urgent            $red        $bg       $red    $red          $red
+client.placeholder       $grey       $bg       $bg     $bg           $bg
+client.background        $bg
 
 # border & title.. Must be set to border pixel for gaps to work
 for_window [class="^.*"] border pixel 2, title_format "<b> %class >> %title </b>"
@@ -29,6 +29,7 @@ for_window [class="^.*"] border pixel 2, title_format "<b> %class >> %title </b>
 gaps inner 5
 gaps outer 5
 #smart_gaps on
+#smart_borders on
 
 # font
 font xft:hack nerd bold 7
@@ -44,8 +45,8 @@ set $left j
 set $right l
 
 # monitors
-set $Mon1 eDP1
-set $Mon2 HDMI1
+set $Mon1 eDP-1
+set $Mon2 HDMI-1
 
 ############################################################
 ##############     Reload configs           ################
@@ -148,13 +149,13 @@ default_orientation horizontal
 ##################     Autostart      #####################
 ###########################################################
 
+exec_always --no-startup-id compton --config $HOME/.config/i3/compton.conf
 exec_always --no-startup-id nitrogen --restore; sleep 1; compton -b
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
-exec_always --no-startup-id compton --config $HOME/.config/i3/compton.conf
-exec_always --no-startup-id feh --bg-fill $HOME/Imagens/9.jpg
+exec_always --no-startup-id feh --bg-fill $HOME/Pictures/9.jpg
 exec_always --no-startup-id nm-applet
-exec --no-startup-id numlockx on
-exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+exec_always --no-startup-id numlockx on
+exec_always --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 
 
 ###########################################################
@@ -189,7 +190,7 @@ workspace $ws3 output $Mon1
 workspace $ws4 output $Mon1
 workspace $ws5 output $Mon1
 workspace $ws6 output $Mon1
-workspace $ws7 output $Mon2
+workspace $ws7 output $Mon1
 workspace $ws8 output $Mon2
 workspace $ws9 output $Mon1
 workspace $ws10 output $Mon2
@@ -248,10 +249,9 @@ assign [class="(?i)(?:pcmanfm)"]  → $WS3
 assign [class="(?i)(?:transmission-gtk)"]  → $WS4
 assign [class="(?i)(?:pidgin)"]  → $WS5
 assign [class="(?i)(?:telegram)"]   → $WS5
-#assign [class="(?i)(?:gedit)"]   → $WS6
-assign [class="(?i)(?:mousepad)"]   → $WS6
+assign [class="(?i)(?:gedit)"]   → $WS6
+#assign [class="(?i)(?:mousepad)"]   → $WS6
 assign [class="(?i)(?:code)"]   → $WS6
-#assign [class="(?i)(?:atom)"]   → $WS6
 assign [class="(?i)(?:remmina)"]   → $WS7
 
 # focus, floating, & sticky
@@ -317,9 +317,9 @@ bindsym $mod+z exec --no-startup-id morc_menu
 bindsym $mod+Ctrl+m exec pavucontrol
 
 # Screenshot
-bindsym Print exec --no-startup-id scrot -e 'mv $f $HOME/Imagens/shots/'
-bindsym --release Shift+Print exec --no-startup-id scrot -s -e 'mv $f $HOME/Imagens/shots/'
-bindsym --release Control+Print exec --no-startup-id scrot -u -e 'mv $f $HOME/Imagens/shots/'
+bindsym Print exec --no-startup-id scrot -e 'mv $f /home/jaco/Pictures/shots/'
+bindsym --release Shift+Print exec --no-startup-id scrot -s -e 'mv $f /home/jaco/Pictures/shots/'
+bindsym --release Control+Print exec --no-startup-id scrot -u -e 'mv $f /home/jaco/Pictures/shots/'
 #bindsym Print exec --no-startup-id flameshot gui
 
 # core
@@ -345,10 +345,10 @@ bindsym XF86MonBrightnessDown exec --no-startup-id light -U 10
 # Set the shortcuts and what they do
 set $mode_display Ext Screen: HDMI ON (h), HDMI OFF (o), eDP1 ON (v), eDP1 OFF (x)
 mode "$mode_display" {
-    bindsym v exec --no-startup-id xrandr --output eDP1 --auto --left-of HDMI1, mode "default"
-    bindsym h exec --no-startup-id xrandr --output HDMI1 --auto --right-of eDP1, mode "default"
-    bindsym x exec --no-startup-id xrandr --output eDP1 --auto --off, mode "default"
-    bindsym o exec --no-startup-id xrandr --output HDMI1 --auto --off, mode "default"
+    bindsym v exec --no-startup-id xrandr --output eDP-1 --auto --left-of HDMI-1, mode "default"
+    bindsym h exec --no-startup-id xrandr --output HDMI-1 --auto --right-of eDP-1, mode "default"
+    bindsym x exec --no-startup-id xrandr --output eDP-1 --auto --off, mode "default"
+    bindsym o exec --no-startup-id xrandr --output HDMI-1 --auto --off, mode "default"
 
     # back to normal: Enter or Escape
     bindsym Return mode "default"
