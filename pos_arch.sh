@@ -143,6 +143,8 @@ set_user(){
 	cp /etc/X11/xinit/xinitrc /home/$muser/.xinitrc
 	echo "exec i3" >> /home/$muser/.xinitrc
 	
+	cp -r conf/pictures/* /home/$muser/Pictures/
+
 	echo "Success: user create and included on group sudo"
 	sleep 2
 }
