@@ -253,6 +253,7 @@ assign [class="(?i)(?:gedit)"]   → $WS6
 #assign [class="(?i)(?:mousepad)"]   → $WS6
 assign [class="(?i)(?:code)"]   → $WS6
 assign [class="(?i)(?:remmina)"]   → $WS7
+assign [class="(?i)(?:spotify)"]   → $WS9
 
 # focus, floating, & sticky
 for_window [title="(?i)(?:copying|deleting|moving)"] floating enable
