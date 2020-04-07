@@ -15,9 +15,9 @@ set_from_resource $cyan    color6      #5E8D87
 set_from_resource $grey    color7      #65656b
 
 #<colorclass>           <border> <background> <text> <indicator> <child_border>
-client.focused           $grey       $bg       $fg     $green        $green
-client.unfocused         $grey       $bg       $black  $blue         $blue
-client.focused_inactive  $grey       $bg       $black  $blue         $blue
+client.focused           $grey       $bg       $black  $green        $green
+client.unfocused         $grey       $bg       $bg     $blue         $blue
+client.focused_inactive  $grey       $bg       $bg     $blue         $blue
 client.urgent            $red        $bg       $red    $red          $red
 client.placeholder       $grey       $bg       $bg     $bg           $bg
 client.background        $bg
@@ -234,7 +234,8 @@ for_window [class="Nitrogen"] floating enable sticky enable border normal
 for_window [class="Pavucontrol"] floating enable
 for_window [title="sudo"] floating enable border normal
 for_window [class="(?i)virtualbox"] floating enable border normal
-for_window [class="(?i)spotify"] floating enable border normal
+for_window [class="(?i)spotify"] floating enable border pixel 1
+for_window [class="(?i)gnome-calculator"] floating enable border pixel 1
 for_window [class="(?i)(?:qt5ct|pinentry)"] floating enable, focus
 for_window [class="(?i)(?:termite|thunar|pcmanfm)"] focus
 for_window [class="(?i)(?:code|Brackets|atom|firefox|google-chrome)"]  focus
@@ -253,6 +254,7 @@ assign [class="(?i)(?:gedit)"]   → $WS6
 #assign [class="(?i)(?:mousepad)"]   → $WS6
 assign [class="(?i)(?:code)"]   → $WS6
 assign [class="(?i)(?:remmina)"]   → $WS7
+assign [class="(?i)(?:nxplayer)"]   → $WS8
 assign [class="(?i)(?:spotify)"]   → $WS9
 
 # focus, floating, & sticky
@@ -318,9 +320,9 @@ bindsym $mod+z exec --no-startup-id morc_menu
 bindsym $mod+Ctrl+m exec pavucontrol
 
 # Screenshot
-bindsym Print exec --no-startup-id scrot -e 'mv $f $HOME/Pictures/shots/'
-bindsym --release Shift+Print exec --no-startup-id scrot -s -e 'mv $f $HOME/Pictures/shots/'
-bindsym --release Control+Print exec --no-startup-id scrot -u -e 'mv $f $HOME/Pictures/shots/'
+bindsym Print exec --no-startup-id scrot -e 'mv $f /home/jaco/Pictures/shots/'
+bindsym --release Shift+Print exec --no-startup-id scrot -s -e 'mv $f /home/jaco/Pictures/shots/'
+bindsym --release Control+Print exec --no-startup-id scrot -u -e 'mv $f /home/jaco/Pictures/shots/'
 #bindsym Print exec --no-startup-id flameshot gui
 
 # core
