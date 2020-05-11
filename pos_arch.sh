@@ -75,6 +75,8 @@ set_lang(){
 	echo "Keyboard configured..."
 	echo ""
 	ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
+	timedatectl set-ntp true
+	hwclock --systohc
 	echo "Localtime configured..."
 	echo ""
 	echo "pt_BR.UTF-8 UTF-8" > /etc/locale.gen
