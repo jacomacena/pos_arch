@@ -55,7 +55,7 @@ set_pacman(){
 	echo "Include = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf
 	
 	echo "[arcanisrepo]" >> /etc/pacman.conf
-	echo "Server = https://repo.arcanis.me/repo/\$arch" >> /etc/pacman.conf
+	echo "Server = https://repo.arcanis.me/\$arch" >> /etc/pacman.conf
 	
 	echo "Pacman configured..."
 	sleep 2
