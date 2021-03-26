@@ -152,7 +152,7 @@ default_orientation horizontal
 exec_always --no-startup-id compton --config $HOME/.config/i3/compton.conf
 exec_always --no-startup-id nitrogen --restore; sleep 1; compton -b
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
-exec_always --no-startup-id feh --bg-fill $HOME/Pictures/9.jpg
+exec_always --no-startup-id feh --bg-fill $HOME/Pictures/1.png
 exec_always --no-startup-id nm-applet
 exec_always --no-startup-id numlockx on
 exec_always --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
@@ -228,6 +228,7 @@ bindsym $mod+Mod1+Right workspace next
 ###################################################
 
 #Open specific applications in floating mode
+#for_window [title="(?i)(?:terminator)"] floating enable
 for_window [title="alsamixer"] floating enable border pixel 1
 for_window [class="GParted"] floating enable border normal
 for_window [class="Nitrogen"] floating enable sticky enable border normal
@@ -242,27 +243,53 @@ for_window [class="(?i)(?:code|Brackets|atom|firefox|google-chrome)"]  focus
 
 # Assign Applications to specific workspace
 # get class with xprop
+# # W1 #
 #assign [class="(?i)(?:TerminalEmulator)"] → $WS1
+
+# # W2 #
 assign [class="(?i)(?:firefox)"] → $WS2
 assign [class="(?i)(?:google-chrome)"] → $WS2
+
+# # W3 #
 #assign [class="(?i)(?:thunar)"]  → $WS3
 assign [class="(?i)(?:pcmanfm)"]  → $WS3
+
+# # W4 #
+assign [class="(?i)(?:spotify)"]   → $WS4
 assign [class="(?i)(?:transmission-gtk)"]  → $WS4
-assign [class="(?i)(?:pidgin)"]  → $WS5
+
+# # W5 #
+#assign [class="(?i)(?:pidgin)"]  → $WS5
 assign [class="(?i)(?:telegram)"]   → $WS5
+
+# # W6 #
+assign [class="(?i)(?:libreoffice)"]   → $WS6
+assign [class="(?i)(?:Soffice)"]   → $WS6
 assign [class="(?i)(?:gedit)"]   → $WS6
-#assign [class="(?i)(?:mousepad)"]   → $WS6
 assign [class="(?i)(?:code)"]   → $WS6
-assign [class="(?i)(?:remmina)"]   → $WS7
-assign [class="(?i)(?:nxplayer)"]   → $WS8
-assign [class="(?i)(?:spotify)"]   → $WS9
+#assign [class="(?i)(?:mousepad)"]   → $WS6
+
+# # W7 #
+assign [class="(?i)(?:VirtualBox)"]   → $WS7
+#assign [class="(?i)(?:remmina)"]   → $WS7
+
+# # W8 #
+assign [class="(?i)(?:anydesk)"]   → $WS8
+
+# # W9 #
+
+
+# # W0 #
+assign [class="(?i)(?:binance)"]   → $WS0
+assign [class="(?i)(?:exodus)"]   → $WS0
+assign [class="(?i)(?:monero)"]   → $WS0
 
 # focus, floating, & sticky
 for_window [title="(?i)(?:copying|deleting|moving)"] floating enable
 for_window [window_role="(?i)(?:pop-up|setup)"]      floating enable
 
 # switch to workspace with urgent window automatically
-for_window [urgent=latest] focus
+#for_window [urgent=latest] focus
 
 popup_during_fullscreen smart
 
@@ -302,10 +329,10 @@ workspace_auto_back_and_forth yes
 ###########################################################
 
 # kill focused window
-bindsym $Mod+Shift+q kill
-#bindsym Mod1+q kill
+#bindsym $Mod+Shift+q kill
+bindsym $Mod+q kill
 bindsym Mod1+F4 kill
-bindsym $mod+Ctrl+x --release exec --no-startup-id xkill
+bindsym $mod+Ctrl+q --release exec --no-startup-id xkill
 
 # logout script
 bindsym $Mod+x exec --no-startup-id $HOME/.bin/rofi_run -l
@@ -326,10 +353,23 @@ bindsym --release Control+Print exec --no-startup-id scrot -u -e 'mv $f /home/ja
 #bindsym Print exec --no-startup-id flameshot gui
 
 # core
-bindsym $Mod+w          exec --no-startup-id exo-open --launch WebBrowser
-bindsym $Mod+f          exec --no-startup-id exo-open --launch FileManager
+mode "$apps" {
+    bindsym w          exec --no-startup-id exo-open --launch WebBrowser
+    bindsym f          exec --no-startup-id exo-open --launch FileManager
+    bindsym c          exec --no-startup-id code
+    bindsym s          exec --no-startup-id spotify
+    bindsym t          exec --no-startup-id telegram-desktop
+    bindsym v          exec --no-startup-id virtualbox
+
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+
+}
+bindsym $mod+o mode "$apps"
+
 #bindsym $Mod+t          exec --no-startup-id exo-open --launch TerminalEmulator
-bindsym $mod+Return 	exec --no-startup-id exo-open --launch TerminalEmulator
+bindsym $mod+Return 	exec --no-startup-id terminator
 
 # audio
 bindsym XF86AudioPlay        exec --no-startup-id playerctl play-pause
