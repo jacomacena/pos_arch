@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
-BAR_ICON=""
+BAR_ICON=""
 NOTIFIED=0
-NOTIFY_ICON=/usr/share/icons/gnome/32x32/apps/system-software-update.png
+NOTIFY_ICON=""
 
 get_total_updates()
 {
-    UPDATES=$(checkupdates 2>/dev/null | wc -l)
+    UPDATES=$(apt check 2>/dev/null | wc -l)
 }
 
 while true; do
@@ -29,8 +29,9 @@ while true; do
 
     # when there are updates available
     # every 10 seconds another check for updates is done
-    while (( UPDATES > 0 )); do
-        (( UPDATES == 1 )) && echo "$UPDATES Update" || { (( UPDATES > 1 )) && echo "$UPDATES Updates"; }
+    # echo "$UPDATES Update"
+    while (( UPDATES > 3 )); do
+        (( UPDATES == 4 )) && echo "$NOTIFY_ICON" || { (( UPDATES > 4 )) && echo "$NOTIFY_ICON"; }
         sleep 10
         get_total_updates
     done
@@ -38,7 +39,7 @@ while true; do
     # when no updates are available, use a longer loop, this saves on CPU
     # and network uptime, only checking once every 30 min for new updates
     while (( UPDATES == 0 )); do
-        sleep 1800
+        sleep 25
         get_total_updates
     done
 done

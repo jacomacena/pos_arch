@@ -55,7 +55,7 @@ toggle_compton()
         if [[ $(pidof compton) ]]; then
             echo "$on"
         else
-            echo "%{F#888888}$off"
+            echo "%{#888888}$off"
         fi
         sleep 2
     done

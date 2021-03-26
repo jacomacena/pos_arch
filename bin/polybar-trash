@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-TRASH_DIRECTORY="$BLOCK_INSTANCE"
+TRASH_DIRECTORY="{BLOCK_INSTANCE}"
 
 if [[ $TRASH_DIRECTORY = "" ]]; then
     TRASH_DIRECTORY="${XDG_DATA_HOME:-$HOME/.local/share}/Trash"

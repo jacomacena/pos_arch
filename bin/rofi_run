@@ -44,15 +44,10 @@ for arg in "$@"; do
             exit 0
             ;;
         -r|--run)
-            rofi -modi run,drun -show drun -line-padding 4 \
-                -columns 3 -lines 15 -padding 20 -hide-scrollbar \
-                -show-icons -width 60 -line-margin 0 \
-		-separator-style none -font "Hack 8" \
-		-color-window "#222222, #222222, #b1b4b3" \
-		-color-normal "#222222, #b1b4b3, #222222, #005577, #b1b4b3" \
-		-color-active "#222222, #b1b4b3, #222222, #007763, #b1b4b3" \
-		-color-urgent "#222222, #b1b4b3, #222222, #77003d, #b1b4b3" \
-		-kb-row-select "Tab" -kb-row-tab ""
+            rofi -modi run,drun -show drun -line-padding 3 \
+                -columns 3 -padding 50 -hide-scrollbar -disable-history \
+                -show-icons -drun-icon-theme "Flat-Remix-Dark" \
+		-font "Hack Nerd Font 8" -sort -display-drun "Apps"	
             ;;
         -w|--window)
             rofi -modi window -show window -hide-scrollbar -padding 50 -line-padding 4
@@ -61,18 +56,18 @@ for arg in "$@"; do
             hash qalc &>/dev/null ||
                 { echo "Requires 'libqalculate' installed"; exit 1; }
 
-            rofi -modi "calc:qalc +u8 -nocurrencies" -padding 10 \
+            rofi -modi "calc:qalc +u8 -nocurrencies" -padding 50 \
                 -show "calc:qalc +u8 -nocurrencies" -line-padding 4 \
                 -hide-scrollbar
             ;;
-        -c|--clipboard)
-            hash greenclip &>/dev/null ||
-                { echo "Requires 'greenclip' installed"; exit 1; }
-
-            rofi -modi "clipboard:greenclip print" -padding 50 \
-                -line-padding 4 -show "clipboard:greenclip print" \
-                -hide-scrollbar
-            ;;
+#        -c|--clipboard-width 7 )
+#            hash greenclip &>/dev/null ||
+#                { echo "Requires 'greenclip' installed"; exit 1; }
+#
+#            rofi -modi "clipboard:greenclip print" -padding 50 \
+#                -line-padding 4 -show "clipboard:greenclip print" \
+#                -hide-scrollbar
+#            ;;
         -b|--browser)
             hash surfraw &>/dev/null ||
                 { echo "Requires 'surfraw' installed"; exit 1; }
@@ -86,24 +81,22 @@ for arg in "$@"; do
             ;;
         -l|--logout)
             if grep -q 'exec startx' $HOME/.*profile; then
-                ANS="$(rofi -sep "|" -dmenu -i -p 'System' -width 10 \
-                    -hide-scrollbar -line-padding 4 -padding 20 \
-                    -lines 3 <<< " Lock| Reboot| Shutdown")"
+                ANS="$(rofi -sep "|" -dmenu -i -p 'System' -width 7 \
+                    -hide-scrollbar -line-padding 2 -padding 10 \
+                    -font "Hach Nerd Font 8" \
+                    -lines 4 <<< " Lock| Logout| Reboot| Shutdown")"
             else
-                ANS="$(rofi -sep "|" -dmenu -i -p 'System' -width 10 \
-                    -hide-scrollbar -line-padding 4 -padding 20 -font "Hack 8" \
-		    -color-window "#222222, #222222, #b1b4b3" \
-		    -color-normal "#222222, #b1b4b3, #222222, #005577, #b1b4b3" \
-		    -color-active "#222222, #b1b4b3, #222222, #007763, #b1b4b3" \
-		    -color-urgent "#222222, #b1b4b3, #222222, #77003d, #b1b4b3" \
-                    -lines 4 <<< " Lock| Logout| Reboot| Shutdown")"
+                ANS="$(rofi -sep "|" -dmenu -i -p 'System' -width 7 \
+                    -hide-scrollbar -line-padding 2 -padding 10 \
+                    -font "Hack Nerd Font 8" \
+                    -lines 4 <<< " Lock| Logout| Reboot| Shutdown")"
             fi
 
             case "$ANS" in
-                *Lock) i3lock-fancy-dualmonitor ;;
+                *Lock) i3lock-fancy -gpf Hack-Regular-Nerd-Font-Complete;;
                 *Reboot) systemctl reboot ;;
                 *Shutdown) systemctl -i poweroff ;;
-                *Logout) i3-msg exit ;;
+                *Logout) session-logout || pkill -15 -t tty"$XDG_VTNR" Xorg ;;
             esac
             ;;
         *)
