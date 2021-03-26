@@ -19,12 +19,12 @@ include-file = $HOME/.config/polybar/master.conf
 include-file = $HOME/.config/polybar/modules.conf
 
 ;=====================================================
-;     i3 Bars
+;     i3/bspwm Bars
 ;=====================================================
 
 [bar/top]
 inherit = bar/master
-monitor = eDP1
+;monitor = eDP1
 
 modules-left   = menu i3
 ;modules-center = clock
