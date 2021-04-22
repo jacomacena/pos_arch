@@ -34,7 +34,7 @@ usage: ${0##*/} [flags] [options]
 
   Options:
   
-    --install, -i			 Install all packages (I3)
+    --install, -i			 Install all packages (I3/BSPWM)
     --remove, -u			 Remove all packages (keeps the base)
     --help, -h				 Show this is message
 EOF
@@ -137,13 +137,17 @@ set_user(){
     	muser=$(echo "$u" | tr -d ' _-' | tr 'A-Z' 'a-z')
     
     echo "Your user: $muser:"
-	useradd -m -g users -G wheel,sys,lp,network,video,optical,scanner,storage,power,bumblebee,log,games,disk,vboxusers,wireshark -s /bin/bash "$muser"    
+	useradd -m -g users -G wheel,sys,lp,network,video,optical,scanner,storage,power,bumblebee,log,games,disk,vboxusers -s /bin/bash "$muser"    
 	echo "Set password for your user:"
 	passwd "$muser"
 	sed -i "s/^root ALL=(ALL) ALL$/root ALL=(ALL) ALL\n${muser} ALL=(ALL) ALL\n/" /etc/sudoers
+	
+	[[ -z "$2" ]] && echo "Set windows manager (i3 or bspwm)"
+	read wm
 
 	cp /etc/X11/xinit/xinitrc /home/$muser/.xinitrc
-	echo "exec i3" >> /home/$muser/.xinitrc
+	echo "exec $wm" >> /home/$muser/.xinitrc
+	chown -R $muser: /home/$muser/.xinitrc
 	
 	cp -r conf/pictures/* /home/$muser/Pictures/
 
@@ -184,14 +188,14 @@ set_pkgs(){
 	clear
 	echo "Install WM..."
 	sleep 2
-	pacman -S i3 dmenu compton slim rofi exo libmp4v2 cmus gvfs network-manager-applet --noconfirm
+	pacman -S i3 bspwm sxhkd dmenu compton slim rofi exo libmp4v2 cmus gvfs network-manager-applet --noconfirm
 	pacman -S playerctl pamixer light feh pcmanfm xarchiver networkmanager file-roller terminator --noconfirm
 	pacman -S opusfile wavpack bluez blueman bluez-utils cdrtools pavucontrol numlockx scrot nitrogen cpio arj lrzip lz4 unrar lzip --noconfirm
 
 	clear
 	echo "Install Apps..."
 	sleep 2
-	pacman -S gparted ghostscript inkscape bleachbit jre-openjdk jdk-openjdk gedit wireshark-qt firefox transmission-gtk gimp --noconfirm
+	pacman -S gparted ghostscript inkscape bleachbit jre-openjdk jdk-openjdk gedit firefox transmission-gtk gimp --noconfirm
 	pacman -S libreoffice libreoffice-pt-BR virtualbox virtualbox-guest-iso telegram-desktop neofetch --noconfirm
 	pacman -S android-tools code pidgin arc-gtk-theme pepper-flash lxappearance gsimplecal gwenview vlc epdfview --noconfirm
 }
