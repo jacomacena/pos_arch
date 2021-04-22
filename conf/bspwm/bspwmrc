@@ -37,11 +37,13 @@ bspc config presel_feedback_color       "#839496"
 # RULES
 
 # external
-bspc config external_rules_command "$HOME/.config/bspwm/bspwm_ext_rules"
+bspc config external_rules_command "$HOME/.config/bspwm/spotify_rule"
 
 # # W1 #
 bspc rule -a Terminator               state=floating
-bspc rule -a Galculator               state=floating
+bspc rule -a Gnome-calculator         state=floating
+bspc rule -a Pavucontrol              state=floating
+bspc rule -a Blueman-manager          state=floating
 # # W2 #
 bspc rule -a firefox			            desktop='^2' state=tiled follow=on
 # # W3 #
@@ -49,17 +51,17 @@ bspc rule -a Pcmanfm			            desktop='^3' state=tiled follow=on
 # # W4 #
 bspc rule -a Spotify			            desktop='^4' state=tiled
 # # W5 #
-bspc rule -a TelegramDesktop		      desktop='^5' state=pseudo_tiled follow=on
+bspc rule -a TelegramDesktop		      desktop='^5' state=floating follow=on
 # # W6 #
 bspc rule -a Soffice                  desktop='^6' state=tiled follow=on
 bspc rule -a Gedit			              desktop='^6' state=tiled follow=on
 bspc rule -a code-oss			            desktop='^6' state=tiled follow=on
 # # W7 #
-bspc rule -a VirtualBox\ Manager      desktop='^7' state=floating follow=on
 bspc rule -a VirtualBoxVM             desktop='^7' state=tiled follow=on
 # # W8 #
-bspc rule -a Anydesk			            desktop='^8' state=tiled follow=on
+bspc rule -a VirtualBox\ Manager      desktop='^8' state=floating follow=on
 # # W9 #
+bspc rule -a Anydesk			            desktop='^8' state=tiled follow=on
 # # W0 #
 bspc rule -a Binance                  desktop='^0' follow=on
 bspc rule -a Exodus			              desktop='^0' state=tiled follow=on
