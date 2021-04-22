@@ -6,7 +6,7 @@ NOTIFY_ICON=""
 
 get_total_updates()
 {
-    UPDATES=$(pacman -Syup 2>/dev/null | wc -l)
+    UPDATES=$(pacman -Qu 2>/dev/null | wc -l)
 }
 
 while true; do
