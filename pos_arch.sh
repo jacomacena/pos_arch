@@ -206,17 +206,27 @@ boot_grub() {
 }
 
 set_user() {
-  local username pictures_dir
+  local username pictures_dir create_user
 
   need_root
-  log "Create user"
+  log "Configuring user"
+  if confirm "Create a new user?"; then
+    create_user=1
+  else
+    create_user=0
+  fi
+
   read -r -p "Username: " username
   username="$(printf '%s' "$username" | tr -d ' _-' | tr '[:upper:]' '[:lower:]')"
 
   [[ $username =~ ^[a-z_][a-z0-9_-]*[$]?$ ]] || die "invalid username."
-  id "$username" >/dev/null 2>&1 || useradd -m -g users -G "$(IFS=,; printf '%s' "${USER_GROUPS[*]}")" -s /bin/bash "$username"
 
-  passwd "$username"
+  if ((create_user)); then
+    id "$username" >/dev/null 2>&1 || useradd -m -g users -G "$(IFS=,; printf '%s' "${USER_GROUPS[*]}")" -s /bin/bash "$username"
+    passwd "$username"
+  else
+    id "$username" >/dev/null 2>&1 || die "user does not exist: $username"
+  fi
 
   if ! grep -Eq "^${username}[[:space:]]+ALL=\\(ALL(:ALL)?\\)[[:space:]]+ALL$" /etc/sudoers; then
     printf '%s ALL=(ALL:ALL) ALL\n' "$username" > "/etc/sudoers.d/$username"
