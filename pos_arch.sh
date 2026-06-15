@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 ############### Pos install Arch Linux - Cinnamon ###############
 #
 # The MIT License (MIT)
@@ -23,215 +23,293 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 #
-#
-# Script made for automated post-installation of Arch Linux with Cinnamon/i3 +
-# Grub (EFI x86_64) + Nvidia
+# Script made for automated post-installation of Arch Linux on Dell Inspiron
+# with i3/bspwm, Grub (EFI x86_64) and Intel graphics.
+
+set -Eeuo pipefail
+shopt -s nullglob
+
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+PACMAN_REPOS=(
+  "[multilib]|Include = /etc/pacman.d/mirrorlist"
+)
+BASE_GROUPS=(base)
+USER_GROUPS=(wheel sys lp network video optical scanner storage power log games disk vboxusers)
+SERVICES=(NetworkManager bluetooth thermald tlp acpid slim fstrim.timer)
 
 usage() {
   cat <<EOF
+usage: ${0##*/} [flags]
 
-usage: ${0##*/} [flags] [options]
-
-  Options:
-  
-    --install, -i			 Install all packages (I3/BSPWM)
-    --remove, -u			 Remove all packages (keeps the base)
-    --help, -h				 Show this is message
+Options:
+  -i, --install    Install and configure the post-install environment
+  -u, --remove     Remove non-base packages
+  -h, --help       Show this help
 EOF
 }
 
-if [[ -z $1 || $1 = @(-h|--help) ]]; then
-  usage
-  exit $(( $# ? 0 : 1 ))
-fi
-
-set_remove(){
-	pacman -R $(comm -23 <(pacman -Qq | sort) <((for i in $(pacman -Qqg base); do pactree -ul "$i"; done) | sort -u))
+die() {
+  printf 'Error: %s\n' "$*" >&2
+  exit 1
 }
 
-set_pacman(){
-
-	echo "[multilib]" >> /etc/pacman.conf
-	echo "Include = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf
-	
-	echo "[arcanisrepo]" >> /etc/pacman.conf
-	echo "Server = https://repo.arcanis.me/\$arch" >> /etc/pacman.conf
-	
-	echo "Pacman configured..."
-	sleep 2
-
+log() {
+  printf '\n==> %s\n' "$*"
 }
 
-pass_root(){
-	clear
-	echo "pass root:"
-	passwd root
-	sleep 2
+need_root() {
+  [[ ${EUID} -eq 0 ]] || die "run this script as root."
 }
 
-set_lang(){
-	clear
-	loadkeys br-abnt2
-	echo "Keyboard configured..."
-	echo ""
-	ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
-	timedatectl set-ntp true
-	hwclock --systohc
-	echo "Localtime configured..."
-	echo ""
-	echo "pt_BR.UTF-8 UTF-8" > /etc/locale.gen
-	echo "Locale configured..."
-	echo ""
-	echo "KEYMAP=br-abnt2" > /etc/vconsole.conf
-	echo "Keymap configured..."
-	cp xorg/00-keyboard.conf /etc/X11/xorg.conf.d/
-	cp xorg/20-intel.conf /etc/X11/xorg.conf.d/
-	cp xorg/40-touchpad.conf /etc/X11/xorg.conf.d/
-	cp lang/keyboard /etc/default/
-	cp lang/locale /etc/default/
-	locale-gen
-	echo "Language pt_BR installed..."
-	sleep 2
+need_command() {
+  command -v "$1" >/dev/null 2>&1 || die "required command not found: $1"
 }
 
-name_machine(){
-	clear
-	
-	echo "set name machine:"
-	
-	read nm
-	
-	[[ -z "$nm" ]] && echo "Set name machine" && exit 1
-	
-	nm1=$(echo "$nm")
-
-	echo "$nm1" > /etc/hostname
-	echo "$nm1 configured successfully"
-	sleep 2
+confirm() {
+  local answer
+  read -r -p "$1 [y/N] " answer
+  [[ ${answer,,} == y || ${answer,,} == yes ]]
 }
 
-boot_grub(){
+append_pacman_repo() {
+  local header="${1%%|*}"
+  local include="${1#*|}"
 
-	clear
-	
-	echo "GRUB:"
+  if grep -Fxq "$header" /etc/pacman.conf; then
+    return
+  fi
 
-	mkinitcpio -p linux
-
-	grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=arch_grub --recheck /dev/sda
-
-	grub-mkconfig -o /boot/grub/grub.cfg
-	
-	echo "grub configured successfully"
-	
-	sleep 2
-
+  {
+    printf '\n%s\n' "$header"
+    printf '%s\n' "$include"
+  } >> /etc/pacman.conf
 }
 
-set_user(){
-
-	clear
-
-    	[[ -z "$2" ]] && echo "Set name user"
-	read u
-    	muser=$(echo "$u" | tr -d ' _-' | tr 'A-Z' 'a-z')
-    
-    echo "Your user: $muser:"
-	useradd -m -g users -G wheel,sys,lp,network,video,optical,scanner,storage,power,bumblebee,log,games,disk,vboxusers -s /bin/bash "$muser"    
-	echo "Set password for your user:"
-	passwd "$muser"
-	sed -i "s/^root ALL=(ALL) ALL$/root ALL=(ALL) ALL\n${muser} ALL=(ALL) ALL\n/" /etc/sudoers
-	
-	[[ -z "$2" ]] && echo "Set windows manager (i3 or bspwm)"
-	read wm
-
-	cp /etc/X11/xinit/xinitrc /home/$muser/.xinitrc
-	echo "exec $wm" >> /home/$muser/.xinitrc
-	chown -R $muser: /home/$muser/.xinitrc
-	
-	cp -r conf/pictures/* /home/$muser/Pictures/
-
-	echo "Success: user create and included on group sudo"
-	sleep 2
+install_packages() {
+  pacman -S --needed --noconfirm "$@"
 }
 
-set_services(){
-	clear
-	echo "set services..."
-	systemctl enable NetworkManager
-	systemctl enable bumblebeed
-	systemctl enable slim
-	echo "configured services"
+copy_file() {
+  local source=$1
+  local target=$2
+
+  install -Dm644 "$SCRIPT_DIR/$source" "$target"
 }
 
-set_pkgs(){
-	clear
-	echo "Install Base..."
-	sleep 2
-	pacman -S linux linux-{headers,firmware} --noconfirm
-	pacman -S sudo zsh bash-completion grub os-prober efibootmgr net-tools intel-ucode lynx tar gzip bzip2 unzip unrar p7zip --noconfirm
-	pacman -S xorg xorg-xinit alsa-{lib,utils,firmware,plugins} pulseaudio-alsa pulseaudio --noconfirm
-	pacman -S xterm vim git rkhunter mtr yaourt aircrack-ng dnsutils ntfs-3g wget curl openssh whois cifs-utils --noconfirm
+set_remove() {
+  need_root
+  need_command pacman
+  need_command pactree
 
-	clear
-	echo "Install Fonts..."
-	sleep 2
-	pacman -S ttf-{bitstream-vera,dejavu,inconsolata,freefont,roboto,font-awesome,liberation,linux-libertine} --noconfirm
-	pacman -S dina-font terminus-font adobe-source-code-pro-fonts xorg-fonts-type1 --noconfirm
+  confirm "Remove all packages except the base dependency tree?" || exit 0
 
-	clear
-	echo "Install Video..."
-	sleep 2
-	pacman -S xf86-video-intel bumblebee nvidia bbswitch opencl-nvidia --noconfirm
-	#pacman -S lib32-nvidia-430xx-utils nvidia-430xx-utils lib32-primus --noconfirm
+  mapfile -t keep_packages < <(
+    for group in "${BASE_GROUPS[@]}"; do
+      pacman -Qqg "$group"
+    done | while read -r pkg; do
+      pactree -ul "$pkg"
+    done | sort -u
+  )
 
-	clear
-	echo "Install WM..."
-	sleep 2
-	pacman -S i3 bspwm sxhkd dmenu compton slim rofi exo libmp4v2 cmus gvfs network-manager-applet --noconfirm
-	pacman -S playerctl pamixer light feh pcmanfm xarchiver networkmanager file-roller terminator --noconfirm
-	pacman -S opusfile wavpack bluez blueman bluez-utils cdrtools pavucontrol numlockx scrot nitrogen cpio arj lrzip lz4 unrar lzip --noconfirm
+  mapfile -t remove_packages < <(comm -23 <(pacman -Qq | sort) <(printf '%s\n' "${keep_packages[@]}" | sort -u))
 
-	clear
-	echo "Install Apps..."
-	sleep 2
-	pacman -S gparted ghostscript inkscape bleachbit jre-openjdk jdk-openjdk gedit firefox transmission-gtk gimp --noconfirm
-	pacman -S libreoffice libreoffice-pt-BR virtualbox virtualbox-guest-iso telegram-desktop neofetch --noconfirm
-	pacman -S android-tools code pidgin arc-gtk-theme pepper-flash lxappearance gsimplecal gwenview vlc epdfview --noconfirm
+  ((${#remove_packages[@]})) || die "no removable packages found."
+  pacman -Rns "${remove_packages[@]}"
 }
 
-set_install_i3(){
+set_pacman() {
+  need_root
+  need_command pacman
 
-	set_pacman
-	
-	pacman -Syyyyyuuuuu
+  log "Configuring pacman repositories"
+  for repo in "${PACMAN_REPOS[@]}"; do
+    append_pacman_repo "$repo"
+  done
 
-	set_pkgs
-	
-	pass_root
-	
-	set_lang
-	
-	name_machine
-	
-	boot_grub
-	
-	set_user
-	
-	set_services
-	
-	clear
-	echo "To finalize the settings, reboot the system and install via yaourt the following packages:"
-	echo "polybar nerd-fonts-complete wd719x-firmware aic94xx-firmware paper-icon-theme optimus-manager google-chrome i3lock-fancy-git"
-	sleep 10
-	
+  pacman -Syu --noconfirm
 }
 
-case "$1" in
+pass_root() {
+  need_root
 
-    "--install"|"-i") set_install_i3;;
-    "--remove"|"-u") set_remove;;
-    "--help"|"-h") usage ;;
-    *) echo "Invalid option." && usage ;;
+  log "Set root password"
+  passwd root
+}
 
+set_lang() {
+  need_root
+
+  log "Configuring locale, timezone and keyboard"
+  loadkeys br-abnt2
+  ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
+  timedatectl set-ntp true
+  hwclock --systohc
+
+  grep -q '^pt_BR.UTF-8 UTF-8$' /etc/locale.gen || printf 'pt_BR.UTF-8 UTF-8\n' >> /etc/locale.gen
+  locale-gen
+
+  printf 'LANG=pt_BR.UTF-8\n' > /etc/locale.conf
+  printf 'KEYMAP=br-abnt2\n' > /etc/vconsole.conf
+
+  copy_file xorg/00-keyboard.conf /etc/X11/xorg.conf.d/00-keyboard.conf
+  copy_file xorg/40-touchpad.conf /etc/X11/xorg.conf.d/40-touchpad.conf
+}
+
+name_machine() {
+  local hostname
+
+  need_root
+  log "Set machine name"
+  read -r -p "Hostname: " hostname
+
+  [[ $hostname =~ ^[a-zA-Z0-9][a-zA-Z0-9-]{0,62}$ ]] || die "invalid hostname."
+
+  printf '%s\n' "$hostname" > /etc/hostname
+  cat > /etc/hosts <<EOF
+127.0.0.1 localhost
+::1       localhost
+127.0.1.1 ${hostname}.localdomain ${hostname}
+EOF
+}
+
+boot_grub() {
+  need_root
+
+  log "Configuring GRUB"
+  mkinitcpio -p linux
+  grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=arch_grub --recheck
+  grub-mkconfig -o /boot/grub/grub.cfg
+}
+
+set_user() {
+  local username wm pictures_dir
+
+  need_root
+  log "Create user"
+  read -r -p "Username: " username
+  username="$(printf '%s' "$username" | tr -d ' _-' | tr '[:upper:]' '[:lower:]')"
+
+  [[ $username =~ ^[a-z_][a-z0-9_-]*[$]?$ ]] || die "invalid username."
+  id "$username" >/dev/null 2>&1 || useradd -m -g users -G "$(IFS=,; printf '%s' "${USER_GROUPS[*]}")" -s /bin/bash "$username"
+
+  passwd "$username"
+
+  if ! grep -Eq "^${username}[[:space:]]+ALL=\\(ALL(:ALL)?\\)[[:space:]]+ALL$" /etc/sudoers; then
+    printf '%s ALL=(ALL:ALL) ALL\n' "$username" > "/etc/sudoers.d/$username"
+    chmod 0440 "/etc/sudoers.d/$username"
+  fi
+
+  read -r -p "Window manager (i3 or bspwm): " wm
+  [[ $wm == i3 || $wm == bspwm ]] || die "unsupported window manager: $wm."
+
+  install -Dm644 /etc/X11/xinit/xinitrc "/home/$username/.xinitrc"
+  printf '\nexec %s\n' "$wm" >> "/home/$username/.xinitrc"
+
+  pictures_dir="/home/$username/Pictures"
+  install -d -m755 "$pictures_dir"
+  cp -n "$SCRIPT_DIR"/conf/pictures/* "$pictures_dir"/
+  chown -R "$username:users" "/home/$username/.xinitrc" "$pictures_dir"
+}
+
+set_services() {
+  local service
+
+  need_root
+  log "Enabling services"
+  for service in "${SERVICES[@]}"; do
+    systemctl enable "$service"
+  done
+}
+
+set_pkgs() {
+  need_root
+  need_command pacman
+
+  local base_pkgs=(
+    linux linux-headers linux-firmware sudo zsh bash-completion grub os-prober
+    efibootmgr net-tools intel-ucode lynx tar gzip bzip2 unzip unrar p7zip
+  )
+  local xorg_pkgs=(
+    xorg xorg-xinit xorg-server xterm xf86-input-libinput
+    alsa-lib alsa-utils alsa-firmware alsa-plugins sof-firmware
+    pipewire pipewire-alsa pipewire-pulse wireplumber
+  )
+  local cli_pkgs=(
+    vim git rkhunter mtr aircrack-ng dnsutils ntfs-3g wget curl openssh
+    whois cifs-utils
+  )
+  local font_pkgs=(
+    ttf-bitstream-vera ttf-dejavu ttf-inconsolata ttf-roboto
+    ttf-font-awesome ttf-liberation ttf-linux-libertine dina-font terminus-font
+    adobe-source-code-pro-fonts xorg-fonts-type1
+  )
+  local laptop_pkgs=(
+    thermald tlp tlp-rdw acpi acpid upower brightnessctl fwupd
+  )
+  local intel_video_pkgs=(
+    mesa mesa-utils vulkan-intel intel-media-driver libva-utils
+  )
+  local wm_pkgs=(
+    i3-wm i3status i3lock bspwm sxhkd dmenu picom slim rofi exo libmp4v2 cmus
+    gvfs network-manager-applet playerctl pamixer light feh pcmanfm xarchiver
+    networkmanager file-roller terminator opusfile wavpack bluez blueman
+    bluez-utils cdrtools pavucontrol numlockx scrot nitrogen cpio arj lrzip lz4
+    lzip
+  )
+  local app_pkgs=(
+    gparted ghostscript inkscape bleachbit jre-openjdk jdk-openjdk gedit
+    firefox transmission-gtk gimp libreoffice-fresh libreoffice-fresh-pt-br
+    virtualbox virtualbox-guest-iso telegram-desktop neofetch android-tools
+    code pidgin arc-gtk-theme lxappearance gsimplecal gwenview vlc epdfview
+  )
+
+  log "Installing base packages"
+  install_packages "${base_pkgs[@]}"
+
+  log "Installing Xorg and audio packages"
+  install_packages "${xorg_pkgs[@]}"
+
+  log "Installing CLI packages"
+  install_packages "${cli_pkgs[@]}"
+
+  log "Installing fonts"
+  install_packages "${font_pkgs[@]}"
+
+  log "Installing Dell Inspiron 15 3520 laptop packages"
+  install_packages "${laptop_pkgs[@]}"
+
+  log "Installing Intel graphics packages"
+  install_packages "${intel_video_pkgs[@]}"
+
+  log "Installing window manager packages"
+  install_packages "${wm_pkgs[@]}"
+
+  log "Installing desktop apps"
+  install_packages "${app_pkgs[@]}"
+}
+
+set_install_i3() {
+  set_pacman
+  set_pkgs
+  pass_root
+  set_lang
+  name_machine
+  boot_grub
+  set_user
+  set_services
+
+  cat <<EOF
+
+To finish, reboot the system and install AUR packages with your preferred helper:
+polybar nerd-fonts-complete wd719x-firmware aic94xx-firmware paper-icon-theme
+google-chrome i3lock-fancy-git
+EOF
+}
+
+case "${1:-}" in
+  -i|--install) set_install_i3 ;;
+  -u|--remove) set_remove ;;
+  -h|--help) usage ;;
+  "") usage; exit 1 ;;
+  *) usage; die "invalid option: $1" ;;
 esac

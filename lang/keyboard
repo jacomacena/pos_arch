@@ -2,6 +2,6 @@
 # Consult the keyboard(5) manual page.
 XKBMODEL=""
 XKBLAYOUT="br"
-XKBVARIANT=""
+XKBVARIANT="abnt2"
 XKBOPTIONS=""
 BACKSPACE="guess"
