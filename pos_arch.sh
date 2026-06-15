@@ -306,7 +306,7 @@ set_pkgs() {
   )
   local app_pkgs=(
     gparted ghostscript bleachbit gedit
-    firefox transmission-gtk gimp libreoffice-fresh libreoffice-fresh-pt-br
+    firefox transmission-gtk libreoffice-fresh libreoffice-fresh-pt-br
     virtualbox virtualbox-host-modules-arch virtualbox-guest-iso telegram-desktop
     code lxappearance gsimplecal gwenview vlc
   )
