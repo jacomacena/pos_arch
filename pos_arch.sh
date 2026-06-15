@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-############### Pos install Arch Linux - Cinnamon ###############
+############### Pos install Arch Linux - i3/Hyprland ###############
 #
 # The MIT License (MIT)
 #
@@ -24,7 +24,7 @@
 # SOFTWARE.
 #
 # Script made for automated post-installation of Arch Linux on Dell Inspiron
-# with i3/bspwm, Grub (EFI x86_64) and Intel graphics.
+# with i3/Hyprland, SDDM, Grub (EFI x86_64) and Intel graphics.
 
 set -Eeuo pipefail
 shopt -s nullglob
@@ -35,7 +35,8 @@ PACMAN_REPOS=(
 )
 BASE_GROUPS=(base)
 USER_GROUPS=(wheel sys lp network video optical scanner storage power log games disk vboxusers docker)
-SERVICES=(NetworkManager bluetooth thermald tlp acpid slim fstrim.timer docker)
+SERVICES=(NetworkManager bluetooth thermald tlp acpid sddm fstrim.timer docker)
+SELECTED_WM=
 
 usage() {
   cat <<EOF
@@ -129,6 +130,29 @@ set_pacman() {
   pacman -Syu --noconfirm
 }
 
+choose_wm() {
+  local wm
+
+  while true; do
+    read -r -p "Window manager (i3 or hyprland): " wm
+    wm="${wm,,}"
+
+    case "$wm" in
+      i3|i3wm)
+        SELECTED_WM=i3
+        return
+        ;;
+      hyprland)
+        SELECTED_WM=hyprland
+        return
+        ;;
+      *)
+        printf 'Unsupported window manager: %s\n' "$wm" >&2
+        ;;
+    esac
+  done
+}
+
 pass_root() {
   need_root
 
@@ -182,7 +206,7 @@ boot_grub() {
 }
 
 set_user() {
-  local username wm pictures_dir
+  local username pictures_dir
 
   need_root
   log "Create user"
@@ -199,16 +223,19 @@ set_user() {
     chmod 0440 "/etc/sudoers.d/$username"
   fi
 
-  read -r -p "Window manager (i3 or bspwm): " wm
-  [[ $wm == i3 || $wm == bspwm ]] || die "unsupported window manager: $wm."
-
   install -Dm644 /etc/X11/xinit/xinitrc "/home/$username/.xinitrc"
-  printf '\nexec %s\n' "$wm" >> "/home/$username/.xinitrc"
+  if [[ $SELECTED_WM == hyprland ]]; then
+    printf '\nexec Hyprland\n' >> "/home/$username/.xinitrc"
+  else
+    printf '\nexec i3\n' >> "/home/$username/.xinitrc"
+  fi
 
   pictures_dir="/home/$username/Pictures"
   install -d -m755 "$pictures_dir"
   cp -n "$SCRIPT_DIR"/conf/pictures/* "$pictures_dir"/
-  chown -R "$username:users" "/home/$username/.xinitrc" "$pictures_dir"
+  install -d -m755 "/home/$username/.config"
+  printf '[Desktop]\nSession=%s\n' "$SELECTED_WM" > "/home/$username/.dmrc"
+  chown -R "$username:users" "/home/$username/.xinitrc" "/home/$username/.dmrc" "/home/$username/.config" "$pictures_dir"
 }
 
 set_services() {
@@ -252,8 +279,13 @@ set_pkgs() {
   local dev_pkgs=(
     docker docker-compose
   )
+  local login_pkgs=(
+    sddm
+  )
   local wm_pkgs=(
-    i3-wm i3status i3lock bspwm sxhkd dmenu picom slim rofi exo libmp4v2 cmus
+    i3-wm i3status i3lock hyprland xdg-desktop-portal-hyprland
+    waybar mako wofi grim slurp wl-clipboard xorg-xwayland
+    dmenu picom rofi exo libmp4v2 cmus
     gvfs network-manager-applet playerctl pamixer light feh pcmanfm xarchiver
     networkmanager file-roller terminator opusfile wavpack bluez blueman
     bluez-utils cdrtools pavucontrol numlockx scrot nitrogen cpio arj lrzip lz4
@@ -284,6 +316,9 @@ set_pkgs() {
   log "Installing Intel graphics packages"
   install_packages "${intel_video_pkgs[@]}"
 
+  log "Installing login manager"
+  install_packages "${login_pkgs[@]}"
+
   log "Installing development packages"
   install_packages "${dev_pkgs[@]}"
 
@@ -296,6 +331,7 @@ set_pkgs() {
 
 set_install_i3() {
   set_pacman
+  choose_wm
   set_pkgs
   pass_root
   set_lang
