@@ -87,7 +87,13 @@ append_pacman_repo() {
 }
 
 install_packages() {
-  pacman -S --needed --noconfirm "$@"
+  local pkg
+
+  for pkg in "$@"; do
+    if ! pacman -S --needed --noconfirm "$pkg"; then
+      die "package installation failed: $pkg. Remove it from pos_arch.sh and run the script again."
+    fi
+  done
 }
 
 copy_file() {
@@ -275,11 +281,6 @@ set_pkgs() {
     vim git rkhunter mtr aircrack-ng dnsutils ntfs-3g wget curl openssh
     whois cifs-utils
   )
-  local font_pkgs=(
-    ttf-bitstream-vera ttf-dejavu ttf-inconsolata ttf-roboto
-    ttf-font-awesome ttf-liberation ttf-linux-libertine dina-font terminus-font
-    adobe-source-code-pro-fonts xorg-fonts-type1
-  )
   local laptop_pkgs=(
     thermald tlp tlp-rdw acpi acpid upower brightnessctl fwupd
   )
@@ -296,9 +297,9 @@ set_pkgs() {
     i3-wm i3status i3lock hyprland xdg-desktop-portal-hyprland
     waybar mako wofi grim slurp wl-clipboard xorg-xwayland
     dmenu picom rofi exo libmp4v2 cmus
-    gvfs network-manager-applet playerctl pamixer light feh pcmanfm xarchiver
+    gvfs network-manager-applet playerctl pamixer feh pcmanfm xarchiver
     networkmanager file-roller terminator opusfile wavpack bluez blueman
-    bluez-utils cdrtools pavucontrol numlockx scrot nitrogen cpio arj lrzip lz4
+    bluez-utils cdrtools pavucontrol numlockx scrot cpio arj lrzip lz4
     lzip
   )
   local app_pkgs=(
@@ -316,9 +317,6 @@ set_pkgs() {
 
   log "Installing CLI packages"
   install_packages "${cli_pkgs[@]}"
-
-  log "Installing fonts"
-  install_packages "${font_pkgs[@]}"
 
   log "Installing Dell Inspiron 15 3520 laptop packages"
   install_packages "${laptop_pkgs[@]}"
