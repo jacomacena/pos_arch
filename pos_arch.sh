@@ -162,8 +162,10 @@ choose_wm() {
 pass_root() {
   need_root
 
-  log "Set root password"
-  passwd root
+  if confirm "Create or change the root password?"; then
+    log "Set root password"
+    passwd root
+  fi
 }
 
 set_lang() {
@@ -270,7 +272,7 @@ set_pkgs() {
 
   local base_pkgs=(
     linux linux-headers linux-firmware sudo zsh bash-completion grub os-prober
-    efibootmgr net-tools intel-ucode lynx tar gzip bzip2 unzip unrar p7zip
+    efibootmgr net-tools intel-ucode lynx tar gzip bzip2 unzip unrar 7zip
   )
   local xorg_pkgs=(
     xorg xorg-xinit xorg-server xterm xf86-input-libinput
@@ -278,7 +280,7 @@ set_pkgs() {
     pipewire pipewire-alsa pipewire-pulse wireplumber
   )
   local cli_pkgs=(
-    vim git rkhunter mtr aircrack-ng dnsutils ntfs-3g wget curl openssh
+    vim git rkhunter mtr aircrack-ng bind ntfs-3g wget curl openssh
     whois cifs-utils
   )
   local laptop_pkgs=(
@@ -305,8 +307,8 @@ set_pkgs() {
   local app_pkgs=(
     gparted ghostscript bleachbit gedit
     firefox transmission-gtk gimp libreoffice-fresh libreoffice-fresh-pt-br
-    virtualbox virtualbox-host-modules-arch virtualbox-guest-iso telegram-desktop neofetch
-    code arc-gtk-theme lxappearance gsimplecal gwenview vlc epdfview
+    virtualbox virtualbox-host-modules-arch virtualbox-guest-iso telegram-desktop
+    code lxappearance gsimplecal gwenview vlc
   )
 
   log "Installing base packages"
