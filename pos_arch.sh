@@ -34,8 +34,8 @@ PACMAN_REPOS=(
   "[multilib]|Include = /etc/pacman.d/mirrorlist"
 )
 BASE_GROUPS=(base)
-USER_GROUPS=(wheel sys lp network video optical scanner storage power log games disk vboxusers)
-SERVICES=(NetworkManager bluetooth thermald tlp acpid slim fstrim.timer)
+USER_GROUPS=(wheel sys lp network video optical scanner storage power log games disk vboxusers docker)
+SERVICES=(NetworkManager bluetooth thermald tlp acpid slim fstrim.timer docker)
 
 usage() {
   cat <<EOF
@@ -249,6 +249,9 @@ set_pkgs() {
   local intel_video_pkgs=(
     mesa mesa-utils vulkan-intel intel-media-driver libva-utils
   )
+  local dev_pkgs=(
+    docker docker-compose
+  )
   local wm_pkgs=(
     i3-wm i3status i3lock bspwm sxhkd dmenu picom slim rofi exo libmp4v2 cmus
     gvfs network-manager-applet playerctl pamixer light feh pcmanfm xarchiver
@@ -257,10 +260,10 @@ set_pkgs() {
     lzip
   )
   local app_pkgs=(
-    gparted ghostscript inkscape bleachbit jre-openjdk jdk-openjdk gedit
+    gparted ghostscript bleachbit gedit
     firefox transmission-gtk gimp libreoffice-fresh libreoffice-fresh-pt-br
-    virtualbox virtualbox-guest-iso telegram-desktop neofetch android-tools
-    code pidgin arc-gtk-theme lxappearance gsimplecal gwenview vlc epdfview
+    virtualbox virtualbox-host-modules-arch virtualbox-guest-iso telegram-desktop neofetch
+    code arc-gtk-theme lxappearance gsimplecal gwenview vlc epdfview
   )
 
   log "Installing base packages"
@@ -280,6 +283,9 @@ set_pkgs() {
 
   log "Installing Intel graphics packages"
   install_packages "${intel_video_pkgs[@]}"
+
+  log "Installing development packages"
+  install_packages "${dev_pkgs[@]}"
 
   log "Installing window manager packages"
   install_packages "${wm_pkgs[@]}"
